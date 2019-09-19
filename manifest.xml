@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.w7.cc" versionCode="">
+	<application setting='false'>
+		<name><![CDATA[uniapp微擎示例]]></name>
+		<identifie><![CDATA[chenyu_uniapp]]></identifie>
+		<version><![CDATA[1.0.1]]></version>
+		<ability><![CDATA[uniapp微擎示例]]></ability>
+		<type><![CDATA[chenyu_uniapp]]></type>
+		<description><![CDATA[uniapp是一个跨端的前端开发框架，详细内容自行访问https://uniapp.dcloud.io查看文档
+本示例旨在帮助各开发者如何使用uniapp搭配微擎跨端开发
+交流QQ群36492501]]></description>
+		<author><![CDATA[尘雨雾录]]></author>
+		<url><![CDATA[]]></url>
+		<setting><![CDATA[]]></setting>
+	</application>
+	<platform>
+		<rule embed="false" />
+		<rule embed="false" />
+	<supports>
+<!--		微信小程序-->
+		<item type="wxapp" />
+<!--		微信公众号-->
+<!--		<item type="app" />-->
+<!--		支付宝小程序-->
+		<item type="aliapp" />
+	</supports>
+	</platform>
+	<bindings>
+<!--		<entry title="一级菜单-1" do="numone" multilevel="true" icon="" displayorder="2" />-->
+<!--		<entry title="二级菜单-1-1" do="menuone" parent="numone" displayorder="1" />-->
+<!--		<entry title="二级菜单-1-2" do="menutwo" parent="numone" displayorder="2" />-->
+	</bindings>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>
