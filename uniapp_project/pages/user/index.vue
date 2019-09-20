@@ -39,7 +39,13 @@
 			my.getAuthCode({
 			  scopes: 'auth_user',
 			  success: (res) => {
-					console.log(res)
+					console.log('这里获取的是code',res)
+					my.getAuthUserInfo({
+					  success: (x) => {
+					    console.log(x)
+							this.userinfo = x
+					  }
+					})
 					uni.request({
 					    url: app_mp_alipay.siteInfo.siteroot, //仅为示例，并非真实接口地址。
 					    data: {
@@ -56,16 +62,9 @@
 								'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
 					    },
 					    success: (z) => {
-								console.log(z)
+								console.log('这是后端getuserinfo返回的数据',z)
 					    }
 					});
-					// console.log(res)
-			  //   my.getAuthUserInfo({
-			  //     success: (z) => {
-			  //       console.log(z)
-					// 		this.userinfo = z
-			  //     }
-			  //   });
 			  },
 			});
 			// #endif

@@ -37,7 +37,7 @@
 <!--				<entry title="设置" do="android_site" parent="android" displayorder="1" />-->
 		</menu>
 	</bindings>
-	<install><![CDATA[]]></install>
+	<install><![CDATA[sql/install.php]]></install>
 	<uninstall><![CDATA[]]></uninstall>
 	<upgrade><![CDATA[]]></upgrade>
 </manifest>
