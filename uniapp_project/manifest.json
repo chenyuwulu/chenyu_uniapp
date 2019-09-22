@@ -76,6 +76,34 @@
         "usingComponents" : true
     },
     "mp-toutiao" : {
-        "usingComponents" : true
+        "usingComponents" : true,
+        "appid" : "tt00a6761b9f8cfd5f",
+        "setting" : {
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true,
+            "urlCheck" : false
+        }
+    },
+    "h5" : {
+        "title" : "uniapp微擎示例",
+        "router" : {
+            "mode" : "hash",
+            "base" : "/addons/chenyu_uniapp/template/mobile/h5/"
+        },
+        "devServer" : {
+            "https" : true,
+            "port" : 443,
+            "host" : "weiqing.chenyuwlu.top",
+            "disableHostCheck" : true
+        },
+        "sdkConfigs" : {
+            "maps" : {}
+        }
+    },
+    "mp-qq" : {
+        "setting" : {
+            "urlCheck" : false
+        }
     }
 }

@@ -1,11 +1,13 @@
 <template>
 	<view class="content">
-		<!-- #ifdef MP-WEIXIN -->
+		<!-- #ifdef MP-WEIXIN || MP-TOUTIAO -->
 			<view>
 				<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatarUrl?userinfo.avatarUrl:'../../static/logo.png')" />
 			</view>
 			<view>{{userinfo.nickName}}</view>
+			<!-- #ifdef MP-WEIXIN -->
 			<button type="primary" open-type="getUserInfo" @getuserinfo="mp_wx_getuserinfo">用户授权</button>
+			<!-- #endif -->
 		<!-- #endif -->
 		<!-- #ifdef MP-ALIPAY -->
 			<view>
@@ -35,38 +37,77 @@
 				this.userinfo = uni.getStorageSync('userInfo').wxInfo
 			// #endif
 			// #ifdef MP-ALIPAY
-			let app_mp_alipay = app.$vm.$options
-			my.getAuthCode({
-			  scopes: 'auth_user',
-			  success: (res) => {
-					console.log('这里获取的是code',res)
-					my.getAuthUserInfo({
-					  success: (x) => {
-					    console.log(x)
-							this.userinfo = x
-					  }
-					})
-					uni.request({
-					    url: app_mp_alipay.siteInfo.siteroot, //仅为示例，并非真实接口地址。
-					    data: {
-								i:app_mp_alipay.siteInfo.uniacid,
-								v:app_mp_alipay.siteInfo.version,
-								c:'entry',
-								a:'aliapp',
-								m:'chenyu_uniapp',
-								do:'getuserinfo',
-								authCode:res.authCode
-					    },
-							method:"POST",
-					    header: {
-								'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
-					    },
-					    success: (z) => {
-								console.log('这是后端getuserinfo返回的数据',z)
-					    }
-					});
+				let app_mp_alipay = app.$vm.$options
+				my.getAuthCode({
+				  scopes: 'auth_user',
+				  success: (res) => {
+						console.log('这里获取的是code',res)
+						my.getAuthUserInfo({
+						  success: (x) => {
+							console.log(x)
+								this.userinfo = x
+						  }
+						})
+						uni.request({
+							url: app_mp_alipay.siteInfo.siteroot, //仅为示例，并非真实接口地址。
+							data: {
+									i:app_mp_alipay.siteInfo.uniacid,
+									v:app_mp_alipay.siteInfo.version,
+									c:'entry',
+									a:'aliapp',
+									m:'chenyu_uniapp',
+									do:'getuserinfo',
+									authCode:res.authCode
+							},
+								method:"POST",
+							header: {
+									'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
+							},
+							success: (z) => {
+									console.log('这是后端getuserinfo返回的数据',z)
+							}
+						});
 			  },
 			});
+			// #endif
+			// #ifdef MP-TOUTIAO
+				let app_mp_byte = app.$vm.$options
+				const that = this
+				uni.login({
+				  success: function (z) {
+				    console.log(z)
+				    // 获取用户信息
+				    uni.getUserInfo({
+					  withCredentials:true,
+				      success: function (y) {
+				        console.log(y)
+						uni.request({
+							url: app_mp_byte.siteInfo.siteroot, //仅为示例，并非真实接口地址。
+							data: {
+									i:app_mp_byte.siteInfo.uniacid,
+									v:app_mp_byte.siteInfo.version,
+									c:'entry',
+									a:'toutiaoapp',
+									m:'chenyu_uniapp',
+									do:'getuserinfo',
+									code:z.code,
+									anonymous_code:z.anonymousCode,
+									encryptedData:y.encryptedData,
+									iv:y.iv
+							},
+								method:"POST",
+							header: {
+									'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
+							},
+							success: (x) => {
+								that.userinfo = x.data.data.userInfo
+								console.log(x)
+							}
+						})
+				      }
+				    })
+				  }
+				})
 			// #endif
 		},
 		methods: {
