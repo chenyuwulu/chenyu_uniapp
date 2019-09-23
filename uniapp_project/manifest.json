@@ -92,14 +92,12 @@
             "base" : "/addons/chenyu_uniapp/template/mobile/h5/"
         },
         "devServer" : {
-            "https" : true,
-            "port" : 443,
-            "host" : "weiqing.chenyuwlu.top",
-            "disableHostCheck" : true
+            "https" : false
         },
         "sdkConfigs" : {
             "maps" : {}
-        }
+        },
+        "domain" : "weiqing.chenyuwulu.top"
     },
     "mp-qq" : {
         "setting" : {

@@ -1,5 +1,11 @@
 <template>
 	<view class="content">
+		<!-- #ifdef H5 -->
+		<view>
+			<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
+		</view>
+		<view>{{userinfo.nickname}}</view>
+		<!-- #endif -->
 		<!-- #ifdef MP-WEIXIN || MP-TOUTIAO -->
 			<view>
 				<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatarUrl?userinfo.avatarUrl:'../../static/logo.png')" />
@@ -33,6 +39,31 @@
 			
 		},
 		onShow() {
+			// #ifdef H5
+			let app_h5_weixin = app.$options
+			console.log(app_h5_weixin)
+			uni.request({
+			    url: app_h5_weixin.siteInfo.siteroot, //仅为示例，并非真实接口地址。
+			    data: {
+						i:app_h5_weixin.siteInfo.uniacid,
+						// t:0,
+						// v:app_h5_weixin.siteInfo.version,
+						// from:'aliapp',
+						c:'entry',
+						a:'site',
+						m:'chenyu_uniapp',
+						do:'index'
+			    },
+					method:"POST",
+			    header: {
+						'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
+			    },
+			    success: (res) => {
+						console.log(res)
+							this.userinfo = res.data.w.fans
+			    }
+			})
+			// #endif
 			// #ifdef MP-WEIXIN
 				this.userinfo = uni.getStorageSync('userInfo').wxInfo
 			// #endif

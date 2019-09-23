@@ -41,6 +41,7 @@
 		       },
 		       success: (res) => {
 		   			console.log(res)
+						this.list = res.data
 		       }
 		   })
 		   // #endif
