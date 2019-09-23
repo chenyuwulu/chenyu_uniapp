@@ -20,5 +20,6 @@ if(checksubmit()){
         pdo_insert('chenyu_uniapp_site', $data);
         $id = pdo_insertid();
     }
+    message("修改成功", $redirect = '', $type = 'success');
 }
 include $this->template('web/mp_alipay/site');

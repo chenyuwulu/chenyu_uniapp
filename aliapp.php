@@ -25,18 +25,18 @@ class Chenyu_uniappModuleAliapp extends WeModuleAliapp {
 	     * 不推荐引入在头部，因为阿里的sdk，大家心里清楚，冗余代码很多
 	     * 建议哪里用到再引入，尽可能避免效率问题  (因为作者的服务器很烂，服务器好的可忽略)
 	    */
-        include (IA_ROOT . '/addons/chenyu_uniapp/inc/SDK/alipay-sdk-PHP-3.4.1/AopSdk.php');
+        include (IA_ROOT . '/addons/chenyu_uniapp/inc/SDK/alipay-sdk-PHP-3.4.2/AopSdk.php');
 	    global $_GPC, $_W;
         $list = pdo_fetch("SELECT * FROM " . tablename('chenyu_uniapp_site') . " WHERE uniacid=:uniacid ", array(':uniacid' => $_W['uniacid']));
         $siteinfo = unserialize($list['site']);
         $errno = 0;
         $message = '这是用户授权';
-        $aop = new AopClient;
+        $aop = new AopClient();
         $aop->gatewayUrl = $siteinfo['gatewayUrl'];
         $aop->appId = $siteinfo['appId'];
         $aop->rsaPrivateKey = $siteinfo['rsaPrivateKey'];
         $aop->alipayrsaPublicKey = $siteinfo['alipayrsaPublicKey'];
-//        $aop->apiVersion = '1.0';
+        $aop->apiVersion = '1.0';
         $aop->signType = 'RSA2';
         $aop->postCharset='UTF-8';
         $aop->format='json';
@@ -45,7 +45,6 @@ class Chenyu_uniappModuleAliapp extends WeModuleAliapp {
         $request->setCode($_GPC['authCode']);
         $request->setRefreshToken("");
         $result = $aop->execute($request);
-
         $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
         $resultCode = $result->$responseNode->code;
         return $this->result($errno, $message, array(

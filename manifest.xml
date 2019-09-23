@@ -20,7 +20,7 @@
 <!--		微信小程序-->
 		<item type="wxapp" />
 <!--		微信公众号-->
-<!--		<item type="app" />-->
+		<item type="app" />
 <!--		支付宝小程序-->
 		<item type="aliapp" />
 <!--		字节跳动小程序-->
@@ -29,8 +29,8 @@
 	</platform>
 	<bindings>
 		<menu>
-<!--			<entry title="微信公众号" do="app_wx" multilevel="true" icon="" displayorder="5" />-->
-<!--				<entry title="设置" do="app_wx_site" parent="app_wx" displayorder="1" />-->
+			<entry title="微信公众号" do="app_wx" multilevel="true" icon="" displayorder="5" />
+				<entry title="设置" do="app_wx_site" parent="app_wx" displayorder="1" />
 			<entry title="微信小程序" do="mp_weixin" multilevel="true" icon="" displayorder="4" />
 				<entry title="设置" do="mp_weixin_site" parent="mp_weixin" displayorder="1" />
 			<entry title="支付宝小程序" do="mp_alipay" multilevel="true" icon="" displayorder="3" />
