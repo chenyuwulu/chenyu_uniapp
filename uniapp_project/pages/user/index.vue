@@ -19,10 +19,16 @@
 			<view>
 				<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
 				<view style="text-align: center;">{{userinfo.nickName}}</view>
-			<!-- 	<button type="primary" @onGetAuthorize="onGetAuthorize" @onError="onAuthError" open-type="getAuthorize" scope='userInfo'>
+<!-- 				<button type="primary" @onGetAuthorize="onGetAuthorize" @onError="onAuthError" open-type="getAuthorize" scope='userInfo'>
 				    会员基础信息授权
 				</button> -->
 			</view>
+		<!-- #endif -->
+		<!-- #ifdef APP-PLUS -->
+		<view style="width: 100%;text-align: center;">
+			<image style="width: 200upx;height: 200upx;" :src="userinfo.figureurl_qq"></image>
+			<button class="" @tap="get_userinfo_qq">QQ登录</button>
+		</view>
 		<!-- #endif -->
 	</view>
 </template>
@@ -142,28 +148,46 @@
 			// #endif
 		},
 		methods: {
-			mp_wx_getuserinfo(e){
-				const that = this
-				let app_mp_weixin = app.$vm.$options
-				// console.log(e)
-				app_mp_weixin.util.getUserInfo(function(userInfo) {
-					//这回userInfo为用户信息
-					 console.log(userInfo)
-					 that.userinfo = userInfo.wxInfo
-				}, e.detail)
-			},
-			onGetAuthorize(e) {
-				console.log(e)
-				my.getOpenUserInfo({
-				fail: (res) => {
-					console.log(res)
+			// #ifdef MP-WEIXIN
+				mp_wx_getuserinfo(e){
+					const that = this
+					let app_mp_weixin = app.$vm.$options
+					// console.log(e)
+					app_mp_weixin.util.getUserInfo(function(userInfo) {
+						//这回userInfo为用户信息
+						 console.log(userInfo)
+						 that.userinfo = userInfo.wxInfo
+					}, e.detail)
 				},
-				success: (res) => {
-					console.log(JSON.parse(res.response).response)
-				// let userInfo = JSON.parse(res.response).response // 以下方的报文格式解析两层 response
-				}
-				});
-			},
+			// #endif
+			// #ifdef APP-PLUS
+				get_userinfo_qq(e){
+					const that = this
+					console.log(e)
+					uni.getProvider({
+						service: 'oauth',
+						success: function (res) {
+							console.log(res)
+							if (res.provider.indexOf('qq')) {
+								uni.login({
+									provider: 'qq',
+									success: function (loginRes) {
+										console.log(JSON.stringify(loginRes))
+										// uni.setStorageSync('userinfo_login', JSON.stringify(loginRes))
+										uni.getUserInfo({
+											provider: 'qq',
+											success: function (z) {
+												console.log(z)
+												that.userinfo = infoRes.z
+											}
+										})
+									}
+								})
+							}
+						}
+					})
+				},
+			// #endif
 		}
 	}
 </script>

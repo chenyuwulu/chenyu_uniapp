@@ -20,31 +20,31 @@
 			下面的request访问为了方便区别跨端所以全部区分,
 			根据实际情况可以将一样情况的端合并使用同一套代码,无需全部区分各端书写
 			*/
-		   // #ifdef H5
-		   let app_h5_weixin = app.$options
-		   console.log(app_h5_weixin)
-		   uni.request({
-		       url: app_h5_weixin.siteInfo.siteroot, //仅为示例，并非真实接口地址。
-		       data: {
-		   			i:app_h5_weixin.siteInfo.uniacid,
-		   			// t:0,
-		   			// v:app_h5_weixin.siteInfo.version,
-		   			// from:'aliapp',
-		   			c:'entry',
-		   			a:'site',
-		   			m:'chenyu_uniapp',
-		   			do:'index'
-		       },
-		   		method:"POST",
-		       header: {
-		   			'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
-		       },
-		       success: (res) => {
-		   			console.log(res)
-						this.list = res.data
-		       }
-		   })
-		   // #endif
+			// #ifdef H5
+			let app_h5_weixin = app.$options
+			console.log(app_h5_weixin)
+			uni.request({
+				 url: app_h5_weixin.siteInfo.siteroot, //仅为示例，并非真实接口地址。
+				 data: {
+					i:app_h5_weixin.siteInfo.uniacid,
+					// t:0,
+					// v:app_h5_weixin.siteInfo.version,
+					// from:'aliapp',
+					c:'entry',
+					a:'site',
+					m:'chenyu_uniapp',
+					do:'index'
+				 },
+				method:"POST",
+				 header: {
+					'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
+				 },
+				 success: (res) => {
+					console.log(res)
+					this.list = res.data
+				 }
+			})
+			// #endif
 			// #ifdef MP-WEIXIN
 			let app_mp_weixin = app.$vm.$options
 			console.log(app_mp_weixin)
@@ -97,6 +97,31 @@
 						// from:'aliapp',
 						c:'entry',
 						a:'toutiaoapp',
+						m:'chenyu_uniapp',
+						do:'test'
+			    },
+					method:"POST",
+			    header: {
+						'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
+			    },
+			    success: (res) => {
+						console.log(res)
+						this.list = res.data.data
+			    }
+			})
+			// #endif
+			// #ifdef APP-PLUS
+			let app_app_android = app.$vm.$options
+			console.log(app_app_android)
+			uni.request({
+			    url: app_app_android.siteInfo.siteroot, //仅为示例，并非真实接口地址。
+			    data: {
+						i:app_app_android.siteInfo.uniacid,
+						// j:0,
+						v:app_app_android.siteInfo.version,
+						// from:'aliapp',
+						c:'entry',
+						a:'phoneapp',
 						m:'chenyu_uniapp',
 						do:'test'
 			    },

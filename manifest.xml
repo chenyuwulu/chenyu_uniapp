@@ -3,7 +3,7 @@
 	<application setting='false'>
 		<name><![CDATA[uniapp微擎示例]]></name>
 		<identifie><![CDATA[chenyu_uniapp]]></identifie>
-		<version><![CDATA[1.0.4]]></version>
+		<version><![CDATA[1.0.5]]></version>
 		<ability><![CDATA[uniapp微擎示例]]></ability>
 		<type><![CDATA[chenyu_uniapp]]></type>
 		<description><![CDATA[uniapp是一个跨端的前端开发框架，详细内容自行访问https://uniapp.dcloud.io查看文档
@@ -16,29 +16,31 @@
 	<platform>
 		<rule embed="false" />
 		<rule embed="false" />
-	<supports>
-<!--		微信小程序-->
-		<item type="wxapp" />
-<!--		微信公众号-->
-		<item type="app" />
-<!--		支付宝小程序-->
-		<item type="aliapp" />
-<!--		字节跳动小程序-->
-		<item type="toutiaoapp" />
-	</supports>
+		<supports>
+			<!--		微信小程序-->
+			<item type="wxapp" />
+			<!--		微信公众号-->
+			<item type="app" />
+			<!--		支付宝小程序-->
+			<item type="aliapp" />
+			<!--		字节跳动小程序-->
+			<item type="toutiaoapp" />
+			<!--		Android-->
+			<item type="android" />
+		</supports>
 	</platform>
 	<bindings>
 		<menu>
 			<entry title="微信公众号" do="app_wx" multilevel="true" icon="" displayorder="5" />
-				<entry title="设置" do="app_wx_site" parent="app_wx" displayorder="1" />
+			<entry title="设置" do="app_wx_site" parent="app_wx" displayorder="1" />
 			<entry title="微信小程序" do="mp_weixin" multilevel="true" icon="" displayorder="4" />
-				<entry title="设置" do="mp_weixin_site" parent="mp_weixin" displayorder="1" />
+			<entry title="设置" do="mp_weixin_site" parent="mp_weixin" displayorder="1" />
 			<entry title="支付宝小程序" do="mp_alipay" multilevel="true" icon="" displayorder="3" />
-				<entry title="设置" do="mp_alipay_site" parent="mp_alipay" displayorder="1" />
-			<entry title="字节跳动小程序" do="mp_byte" multilevel="true" icon="" displayorder="3" />
-				<entry title="设置" do="mp_byte_site" parent="mp_byte" displayorder="1" />
-<!--			<entry title="APP-Android" do="android" multilevel="true" icon="" displayorder="4" />-->
-<!--				<entry title="设置" do="android_site" parent="android" displayorder="1" />-->
+			<entry title="设置" do="mp_alipay_site" parent="mp_alipay" displayorder="1" />
+			<entry title="字节跳动小程序" do="mp_byte" multilevel="true" icon="" displayorder="2" />
+			<entry title="设置" do="mp_byte_site" parent="mp_byte" displayorder="1" />
+			<entry title="APP-Android" do="android" multilevel="true" icon="" displayorder="1" />
+			<entry title="设置" do="android_site" parent="android" displayorder="1" />
 		</menu>
 	</bindings>
 	<install><![CDATA[sql/install.php]]></install>
