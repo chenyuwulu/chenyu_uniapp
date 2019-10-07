@@ -4,6 +4,9 @@
 	<view class="text-area">
 		<text class="title">{{list.w.current_module.description}}</text>
 	</view>
+	<view>
+		<navigator open-type="navigate" url="../canvas/index" hover-class="navigator-hover">跳转到canvas</navigator>
+	</view>
 </view>
 </template>
 

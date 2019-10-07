@@ -1,13 +1,25 @@
 <script>
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			const res = uni.getSystemInfoSync()
+			console.log(res)
+			if(res.pixelRatio>1){
+				//不推荐直接根据反馈的来，为了性能考虑，最好固定2
+				this.$options.globalData.pixelRatio =2
+			}
+			this.$options.globalData.pWidth = res.windowWidth
+			this.$options.globalData.pHeight = res.windowHeight
 		},
 		onShow: function() {
 			console.log('App Show')
 		},
 		onHide: function() {
 			console.log('App Hide')
+		},
+		globalData:{
+			pWidth:400,
+			pHeight:0,
+			pixelRatio:1
 		}
 	}
 </script>
