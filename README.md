@@ -16,3 +16,6 @@
 [支付宝小程序](/branch_doc/mp_alipay.md)<br>
 [微信公众号](/branch_doc/h5_weixin.md)<br>
 [Android](/branch_doc/app_android.md)
+
+# 交流群
+![uniapp折腾群](https://weiqing.chenyuwulu.top/attachment/uniapp.png "群")
