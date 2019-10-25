@@ -168,7 +168,7 @@
 						service: 'oauth',
 						success: function (res) {
 							console.log(res)
-							if (res.provider.indexOf('qq')) {
+							if (~res.provider.indexOf('qq')) {
 								uni.login({
 									provider: 'qq',
 									success: function (loginRes) {

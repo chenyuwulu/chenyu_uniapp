@@ -51,7 +51,11 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {
-                "oauth" : {}
+                "oauth" : {
+                    "qq" : {
+                        "appid" : "1109849080"
+                    }
+                }
             }
         }
     },

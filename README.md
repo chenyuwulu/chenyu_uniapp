@@ -18,5 +18,5 @@
 [Android](/branch_doc/app_android.md)
 
 # 交流群
-QQ群：36492501
+QQ群：36492501<br>
 ![uniapp折腾群](https://weiqing.chenyuwulu.top/attachment/uniapp.png "群")
