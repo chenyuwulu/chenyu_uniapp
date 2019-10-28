@@ -12,7 +12,10 @@
 			</view>
 			<view>{{userinfo.nickName}}</view>
 			<!-- #ifdef MP-WEIXIN -->
-			<button type="primary" open-type="getUserInfo" @getuserinfo="mp_wx_getuserinfo">用户授权</button>
+			<view style="margin-top: 50rpx;">此按钮仅微擎小程序流程使用此流程,只使用微信小程序平台建议用此方法</view>
+			<button class="cu-btn bg-blue lg shadow" open-type="getUserInfo" @getuserinfo="mp_wx_weiqing_getuserinfo">用户授权</button>
+			<view style="margin-top: 50rpx;">此按钮脱离微擎封装方法，自己传加密数据自己解密，用于方便后期多平台使用(会记录在user_mp_wx表)</view>
+			<button class="cu-btn lines-blue lg shadow" open-type="getUserInfo" @getuserinfo="mp_wx_getuserinfo">用户授权</button>
 			<!-- #endif -->
 		<!-- #endif -->
 		<!-- #ifdef MP-ALIPAY -->
@@ -149,7 +152,7 @@
 		},
 		methods: {
 			// #ifdef MP-WEIXIN
-				mp_wx_getuserinfo(e){
+				mp_wx_weiqing_getuserinfo(e){
 					const that = this
 					let app_mp_weixin = app.$vm.$options
 					// console.log(e)
@@ -158,6 +161,31 @@
 						 console.log(userInfo)
 						 that.userinfo = userInfo.wxInfo
 					}, e.detail)
+				},
+				mp_wx_getuserinfo(e){
+					let app_mp_weixin = app.$vm.$options
+					const that = this
+					console.log(e)
+					uni.login({
+						success: (x) => {
+							console.log(x)
+							app_mp_weixin.util.request({
+								url: 'entry/wxapp/me_getuserinfo',
+								data: {
+									m:'chenyu_uniapp',
+									code:x.code,
+									rawData:e.detail.rawData,
+									signature:e.detail.signature,
+									iv:e.detail.iv,
+									encryptedData:e.detail.encryptedData
+								},
+								method: 'post',
+								success: res => {
+										console.log(res)
+								}
+							})
+						}
+					})
 				},
 			// #endif
 			// #ifdef APP-PLUS
@@ -178,7 +206,7 @@
 											provider: 'qq',
 											success: function (z) {
 												console.log(z)
-												that.userinfo = infoRes.z
+												that.userinfo = z.userInfo
 											}
 										})
 									}
@@ -193,11 +221,16 @@
 </script>
 
 <style>
+	
 .content {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+	
 }
 
 .logo {

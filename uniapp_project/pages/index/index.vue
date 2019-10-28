@@ -57,7 +57,7 @@
 					m: 'chenyu_uniapp'
 				},
 				method: 'post',
-				success: (res) => {
+				success: res => {
 						console.log(res)
 						this.list = res.data.data
 				}

@@ -9,27 +9,20 @@ CREATE TABLE IF NOT EXISTS `ims_chenyu_uniapp_site` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `ims_chenyu_uniapp_user` (
+CREATE TABLE IF NOT EXISTS `ims_chenyu_uniapp_user_mp_wx` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `headimage` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `wxapp_openid` varchar(255) DEFAULT NULL,
-  `wxapp_info` text,
-  `mp_wx_openid` varchar(255) DEFAULT NULL,
-  `mp_wx_info` text,
-  `mp_alipay_userid` varchar(255) DEFAULT NULL,
-  `mp_alipay_info` text,
-  `mp_toutiao_openid` varchar(255) DEFAULT NULL,
-  `mp_toutiao_info` text,
-  `app_qq_openid` varchar(255) DEFAULT NULL,
-  `app_qq_info` text,
-  `app_wx_openid` varchar(255) DEFAULT NULL,
-  `app_wx_info` text,
-  `createtime` int(11) DEFAULT NULL,
+  `avatarUrl` varchar(255) DEFAULT NULL,
+  `city` varchar(25) DEFAULT NULL,
+  `country` varchar(25) DEFAULT NULL,
+  `gender` int(1) DEFAULT NULL,
+  `language` varchar(20) DEFAULT NULL,
+  `nickName` varchar(255) DEFAULT NULL,
+  `openId` varchar(255) DEFAULT NULL,
+  `province` varchar(25) DEFAULT NULL,
+  `createtime` int(12) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 sql;
 $row = pdo_run($installSql);
