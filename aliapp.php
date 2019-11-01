@@ -47,9 +47,32 @@ class Chenyu_uniappModuleAliapp extends WeModuleAliapp {
         $result = $aop->execute($request);
         $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
         $resultCode = $result->$responseNode->code;
+
+        $list = pdo_fetch('select * from '.tablename('chenyu_uniapp_user_mp_alipay').' where uniacid=:uniacid and user_id=:user_id ',array(':uniacid'=>$_W['uniacid'],':user_id'=>$result->alipay_system_oauth_token_response->user_id));
+        if(empty($list)){
+            $errno = 0;
+            $info = array(
+                'uniacid'=>$_W['uniacid'],
+                'user_id'=>$result->alipay_system_oauth_token_response->user_id,
+                'nickName'=>$_GPC['nickName'],
+                'avatar'=>$_GPC['avatar'],
+                'createtime'=>time(),
+            );
+            $ress=pdo_insert('chenyu_uniapp_user_mp_alipay', $info);
+            if (!empty($ress)) {
+                $userlist = pdo_fetch("SELECT * FROM ".tablename('chenyu_uniapp_user_mp_alipay')." WHERE uniacid=:uniacid and user_id=:user_id ", array(':uniacid'=>$_W['uniacid'],':user_id'=>$ress['user_id']));
+                $data = $userlist;
+            }
+        } else {
+            $errno = 0;
+            $data = $list;
+        }
+
+
+
         return $this->result($errno, $message, array(
             'result'=>$result,
-            'resultCode'=>$resultCode
+            '$data'=>$data
         ));
     }
 }

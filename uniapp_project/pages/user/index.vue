@@ -84,29 +84,31 @@
 						console.log('这里获取的是code',res)
 						my.getAuthUserInfo({
 						  success: (x) => {
-							console.log(x)
+								console.log(x)
 								this.userinfo = x
+								uni.request({
+									url: app_mp_alipay.siteInfo.siteroot, //仅为示例，并非真实接口地址。
+									data: {
+											i:app_mp_alipay.siteInfo.uniacid,
+											v:app_mp_alipay.siteInfo.version,
+											c:'entry',
+											a:'aliapp',
+											m:'chenyu_uniapp',
+											do:'getuserinfo',
+											authCode:res.authCode,
+											nickName:x.nickName,
+											avatar:x.avatar
+									},
+										method:"POST",
+									header: {
+											'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
+									},
+									success: (z) => {
+											console.log('这是后端getuserinfo返回的数据',z)
+									}
+								})
 						  }
 						})
-						uni.request({
-							url: app_mp_alipay.siteInfo.siteroot, //仅为示例，并非真实接口地址。
-							data: {
-									i:app_mp_alipay.siteInfo.uniacid,
-									v:app_mp_alipay.siteInfo.version,
-									c:'entry',
-									a:'aliapp',
-									m:'chenyu_uniapp',
-									do:'getuserinfo',
-									authCode:res.authCode
-							},
-								method:"POST",
-							header: {
-									'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
-							},
-							success: (z) => {
-									console.log('这是后端getuserinfo返回的数据',z)
-							}
-						});
 			  },
 			});
 			// #endif
@@ -151,6 +153,23 @@
 			// #endif
 		},
 		methods: {
+			// #ifdef MP-ALIPAY
+				onGetAuthorize(res){
+					my.getOpenUserInfo({
+						fail: (res) => {
+							console.log(res)
+						},
+						success: (res) => {
+							console.log(res)
+						}
+					});
+				},
+				onAuthError(e){
+					console.log(e)
+				},
+			// #endif
+			
+			
 			// #ifdef MP-WEIXIN
 				mp_wx_weiqing_getuserinfo(e){
 					const that = this

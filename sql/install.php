@@ -14,6 +14,36 @@ DROP TABLE IF EXISTS `ims_chenyu_uniapp_user_mp_wx`;
 CREATE TABLE `ims_chenyu_uniapp_user_mp_wx` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `avatarUrl` varchar(255) DEFAULT NULL,
+  `city` varchar(25) DEFAULT NULL,
+  `country` varchar(25) DEFAULT NULL,
+  `gender` int(1) DEFAULT NULL,
+  `language` varchar(20) DEFAULT NULL,
+  `nickName` varchar(255) DEFAULT NULL,
+  `openId` varchar(255) DEFAULT NULL,
+  `province` varchar(25) DEFAULT NULL,
+  `createtime` int(12) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_chenyu_uniapp_user_mp_alipay`;
+CREATE TABLE `ims_chenyu_uniapp_user_mp_alipay` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  `nickName` varchar(255) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `createtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_chenyu_uniapp_user_mp_byte`;
+CREATE TABLE `ims_chenyu_uniapp_user_mp_byte` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
   `avatarUrl` varchar(255) DEFAULT NULL,
   `city` varchar(25) DEFAULT NULL,
   `country` varchar(25) DEFAULT NULL,

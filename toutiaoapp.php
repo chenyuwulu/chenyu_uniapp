@@ -39,6 +39,31 @@ class Chenyu_uniappModuleToutiaoapp extends WeModuleToutiaoapp {
         $data = array(
             'userInfo'=>json_decode($datas,true)
         );
+        $datas = json_decode($datas,true);
+        $list = pdo_fetch('select * from '.tablename('chenyu_uniapp_user_mp_byte').' where uniacid=:uniacid and openId=:openId ',array(':uniacid'=>$_W['uniacid'],':openId'=>$datas['openId']));
+        if(empty($list)){
+            $errno = 0;
+            $info = array(
+                'uniacid'=>$_W['uniacid'],
+                'avatarUrl'=>$datas['avatarUrl'],
+                'city'=>$datas['city'],
+                'country'=>$datas['country'],
+                'gender'=>$datas['gender'],
+                'language'=>$datas['language'],
+                'nickName'=>$datas['nickName'],
+                'openId'=>$datas['openId'],
+                'province'=>$datas['province'],
+                'createtime'=>time(),
+            );
+            $result=pdo_insert('chenyu_uniapp_user_mp_byte', $info);
+            if (!empty($result)) {
+                $userlist = pdo_fetch("SELECT * FROM ".tablename('chenyu_uniapp_user_mp_byte')." WHERE uniacid=:uniacid and openId=:openId ", array(':uniacid'=>$_W['uniacid'],':openId'=>$datas['openId']));
+                $data = $userlist;
+            }
+        } else {
+            $errno = 0;
+            $data = $list;
+        }
         return $this->result($errno, $message, $data);
     }
 }

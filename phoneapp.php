@@ -18,6 +18,19 @@ class Chenyu_uniappModulePhoneapp extends WeModulePhoneapp {
         );
         return $this->result($errno, $message, $data);
 	}
-	
+
+	public function doPageMe_userinfo_qq(){
+        global $_GPC, $_W;
+        $errno = 0;
+        $message = 'android返回消息';
+        
+
+
+        $data = array(
+            'w'=>$_W,
+            'gpc'=>$_GPC
+        );
+        return $this->result($errno, $message, $data);
+    }
 	
 }
