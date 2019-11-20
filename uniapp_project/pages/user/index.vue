@@ -1,10 +1,10 @@
 <template>
 	<view class="content">
 		<!-- #ifdef H5 -->
-		<view>
-			<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
-		</view>
-		<view>{{userinfo.nickname}}</view>
+			<view>
+				<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
+			</view>
+			<view>{{userinfo.nickname}}</view>
 		<!-- #endif -->
 		<!-- #ifdef MP-WEIXIN || MP-TOUTIAO -->
 			<view>
@@ -31,10 +31,14 @@
 			</view>
 		<!-- #endif -->
 		<!-- #ifdef APP-PLUS -->
-		<view style="width: 100%;text-align: center;">
-			<image style="width: 200upx;height: 200upx;" :src="userinfo.figureurl_qq"></image>
-			<button class="" @tap="get_userinfo_qq">QQ登录</button>
-		</view>
+			<view style="width: 100%;display: flex;flex-direction:column">
+				<image style="width: 300upx;height: 300upx;align-self:center;" :src="userinfo_qq.figureurl_qq"></image>
+				<view style="align-self:center;">{{userinfo_qq.nickName}}</view>
+				<button class="cu-btn bg-blue lg shadow" @tap="get_userinfo_qq">QQ登录</button>
+				<image style="width: 300upx;height: 300upx;align-self:center;" :src="userinfo_wx.avatarUrl"></image>
+				<view style="align-self:center;">{{userinfo_wx.nickName}}</view>
+				<button class="cu-btn bg-green lg shadow" @tap="get_userinfo_wx">微信登录</button>
+			</view>
 		<!-- #endif -->
 	</view>
 </template>
@@ -46,7 +50,11 @@
 	export default {
 		data() {
 			return {
-				userinfo:{}
+				userinfo:{},
+				// #ifdef APP-PLUS
+				userinfo_qq:{},
+				userinfo_wx:{}
+				// #endif
 			}
 		},
 		onLoad() {
@@ -89,6 +97,10 @@
 									},
 									method:'post',
 								}).then(res => {
+									uni.showToast({
+									    title: '返回成功',
+									    duration: 2000
+									})
 									console.log('这是instance的',res)
 								})
 						  }
@@ -117,7 +129,11 @@
 									method:'post',
 								}).then(res => {
 									console.log('这是instance的',res)
-									that.userinfo = res.data.data.userInfo
+									uni.showToast({
+									    title: '返回成功',
+									    duration: 2000
+									})
+									that.userinfo = res.data.data
 								})
 				      }
 				    })
@@ -126,6 +142,7 @@
 			// #endif
 		},
 		methods: {
+			
 			// #ifdef MP-ALIPAY
 				// onGetAuthorize(res){
 				// 	console.log(res)
@@ -170,6 +187,10 @@
 								method:'post',
 							}).then(res => {
 								console.log('这是instance的',res)
+								uni.showToast({
+								    title: '返回成功',
+								    duration: 2000
+								})
 								that.userinfo = res.data.data
 							})
 						}
@@ -190,12 +211,44 @@
 									provider: 'qq',
 									success: loginRes=> {
 										console.log(JSON.stringify(loginRes))
-										// uni.setStorageSync('userinfo_login', JSON.stringify(loginRes))
 										uni.getUserInfo({
 											provider: 'qq',
 											success: function (z) {
 												console.log(z)
-												that.userinfo = z.userInfo
+												that.userinfo_qq = z.userInfo
+												// instance.request({
+												// 	data: {
+												// 		do:'index',
+												// 	},
+												// 	method:'post',
+												// }).then(res => {
+												// 	console.log('这是instance的',res)
+												// 	that.userinfo = res.data.w.fans
+												// })
+											}
+										})
+									}
+								})
+							}
+						}
+					})
+				},
+				get_userinfo_wx(e){
+					const that = this
+					uni.getProvider({
+						service: 'oauth',
+						success: function (x) {
+							console.log(x)
+							if (~x.provider.indexOf('weixin')) {
+								uni.login({
+									provider: "weixin",
+									success: function (loginRes) {
+										console.log(JSON.stringify(loginRes))
+										uni.getUserInfo({
+											provider: 'weixin',
+											success: function (z) {
+												console.log(z)
+												that.userinfo_wx = z.userInfo
 											}
 										})
 									}
