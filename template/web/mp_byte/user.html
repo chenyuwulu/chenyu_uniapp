@@ -1,7 +1,7 @@
 {template 'common/header'}
 
 <ul class="nav nav-tabs">
-    <li {if $op == 'userlist'}class="active"{/if}><a href="{php echo $this->createWebUrl('mp_weixin_user', array('op' => 'userlist'))}">用户列表</a></li>
+    <li {if $op == 'userlist'}class="active"{/if}><a href="{php echo $this->createWebUrl('mp_byte_user', array('op' => 'userlist'))}">用户列表</a></li>
 </ul>
 <div class="main">
     <table class="table we7-table table-hover vertical-middle">
@@ -46,6 +46,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    
+
 </script>
 {template 'common/footer'}

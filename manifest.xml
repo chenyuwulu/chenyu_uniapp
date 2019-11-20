@@ -31,17 +31,20 @@
 	</platform>
 	<bindings>
 		<menu>
-			<entry title="微信公众号" do="app_wx" multilevel="true" icon="" displayorder="5" />
+			<entry title="微信公众号" do="app_wx" multilevel="true" icon="" displayorder="50" />
 				<entry title="设置" do="app_wx_site" parent="app_wx" displayorder="1" />
-			<entry title="微信小程序" do="mp_weixin" multilevel="true" icon="" displayorder="4" />
+			<entry title="微信小程序" do="mp_weixin" multilevel="true" icon="" displayorder="40" />
 				<entry title="设置" do="mp_weixin_site" parent="mp_weixin" displayorder="2" />
 				<entry title="用户管理" do="mp_weixin_user" parent="mp_weixin" displayorder="1" />
-			<entry title="支付宝小程序" do="mp_alipay" multilevel="true" icon="" displayorder="3" />
-				<entry title="设置" do="mp_alipay_site" parent="mp_alipay" displayorder="1" />
-			<entry title="字节跳动小程序" do="mp_byte" multilevel="true" icon="" displayorder="2" />
-				<entry title="设置" do="mp_byte_site" parent="mp_byte" displayorder="1" />
-			<entry title="APP-Android" do="android" multilevel="true" icon="" displayorder="1" />
-				<entry title="设置" do="android_site" parent="android" displayorder="1" />
+			<entry title="支付宝小程序" do="mp_alipay" multilevel="true" icon="" displayorder="30" />
+				<entry title="设置" do="mp_alipay_site" parent="mp_alipay" displayorder="2" />
+				<entry title="用户管理" do="mp_alipay_user" parent="mp_alipay" displayorder="1" />
+			<entry title="字节跳动小程序" do="mp_byte" multilevel="true" icon="" displayorder="20" />
+				<entry title="设置" do="mp_byte_site" parent="mp_byte" displayorder="2" />
+				<entry title="用户管理" do="mp_byte_user" parent="mp_byte" displayorder="1" />
+			<entry title="APP-Android" do="android" multilevel="true" icon="" displayorder="10" />
+				<entry title="设置" do="android_site" parent="android" displayorder="2" />
+				<entry title="用户管理" do="android_user" parent="android" displayorder="1" />
 		</menu>
 	</bindings>
 	<install><![CDATA[sql/install.php]]></install>
