@@ -4,14 +4,18 @@
 	<view class="text-area">
 		<text class="title">{{list.w.current_module.description}}</text>
 	</view>
+	<!-- #ifdef MP-ALIPAY -->
 	<view>
 		<navigator open-type="navigate" url="../canvas/index" hover-class="navigator-hover">跳转到canvas</navigator>
 	</view>
+	<!-- #endif -->
 </view>
 </template>
 
 <script>
+	import request from "@/common/pocky-request/index.js"
 	const app = getApp()
+	const instance = new request()
 	export default {
 		data() {
 			return {
@@ -20,124 +24,29 @@
 		},
 		onLoad() {
 			/*
-			下面的request访问为了方便区别跨端所以全部区分,
-			根据实际情况可以将一样情况的端合并使用同一套代码,无需全部区分各端书写
+			* 直接共用request，充分利用ifdef,样例中特意把h5版本和其他版本做了方法不同的区分。
+			* 在实际使用中，全平台的方法名大多都是统一的，所以在写逻辑代码的时候，甚至都不需要区分平台方法
+			* 
+			* ！！！注意在config,siteinfo配置中详细配置区分！！！
+			* 
 			*/
-			// #ifdef H5
-			let app_h5_weixin = app.$options
-			console.log(app_h5_weixin)
-			uni.request({
-				 url: app_h5_weixin.siteInfo.siteroot, //仅为示例，并非真实接口地址。
-				 data: {
-					i:app_h5_weixin.siteInfo.uniacid,
-					// t:0,
-					// v:app_h5_weixin.siteInfo.version,
-					// from:'aliapp',
-					c:'entry',
-					a:'site',
-					m:'chenyu_uniapp',
-					do:'index'
-				 },
-				method:"POST",
-				 header: {
-					'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
-				 },
-				 success: (res) => {
-					console.log(res)
-					this.list = res.data
-				 }
-			})
-			// #endif
-			// #ifdef MP-WEIXIN
-			let app_mp_weixin = app.$vm.$options
-			console.log(app_mp_weixin)
-			app_mp_weixin.util.request({
-				url: 'entry/wxapp/test',
+			instance.request({
 				data: {
-					m: 'chenyu_uniapp'
+					// #ifdef MP-WEIXIN || MP-ALIPAY || MP-TOUTIAO || APP-PLUS
+						do:'test',
+					// #endif
+					// #ifdef H5
+						do:'index',
+					// #endif
 				},
-				method: 'post',
-				success: res => {
-						console.log(res)
-						this.list = res.data.data
-				}
+				method:'post',
+			}).then(res => {
+				console.log('这是instance的',res)
+				this.list = res.data.data
 			})
-			// #endif
-			// #ifdef MP-ALIPAY
-			let app_mp_alipay = app.$vm.$options
-			console.log(app_mp_alipay)
-			uni.request({
-			    url: app_mp_alipay.siteInfo.siteroot, //仅为示例，并非真实接口地址。
-			    data: {
-						i:app_mp_alipay.siteInfo.uniacid,
-						// t:0,
-						v:app_mp_alipay.siteInfo.version,
-						// from:'aliapp',
-						c:'entry',
-						a:'aliapp',
-						m:'chenyu_uniapp',
-						do:'test'
-			    },
-					method:"POST",
-			    header: {
-						'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
-			    },
-			    success: (res) => {
-						console.log(res)
-						this.list = res.data.data
-			    }
-			})
-			// #endif
-			// #ifdef MP-TOUTIAO
-			let app_mp_byte = app.$vm.$options
-			console.log(app_mp_byte)
-			uni.request({
-			    url: app_mp_byte.siteInfo.siteroot, //仅为示例，并非真实接口地址。
-			    data: {
-						i:app_mp_byte.siteInfo.uniacid,
-						// t:0,
-						v:app_mp_byte.siteInfo.version,
-						// from:'aliapp',
-						c:'entry',
-						a:'toutiaoapp',
-						m:'chenyu_uniapp',
-						do:'test'
-			    },
-					method:"POST",
-			    header: {
-						'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
-			    },
-			    success: (res) => {
-						console.log(res)
-						this.list = res.data.data
-			    }
-			})
-			// #endif
-			// #ifdef APP-PLUS
-			let app_app_android = app.$vm.$options
-			console.log(app_app_android)
-			uni.request({
-			    url: app_app_android.siteInfo.siteroot, //仅为示例，并非真实接口地址。
-			    data: {
-						i:app_app_android.siteInfo.uniacid,
-						// j:0,
-						v:app_app_android.siteInfo.version,
-						// from:'aliapp',
-						c:'entry',
-						a:'phoneapp',
-						m:'chenyu_uniapp',
-						do:'test'
-			    },
-					method:"POST",
-			    header: {
-						'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
-			    },
-			    success: (res) => {
-						console.log(res)
-						this.list = res.data.data
-			    }
-			})
-			// #endif
+		},
+		onShow(){
+			
 		},
 		methods: {
 		}

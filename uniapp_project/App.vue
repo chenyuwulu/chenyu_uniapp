@@ -1,6 +1,6 @@
 <script>
 	export default {
-		onLaunch: function() {
+		onLaunch() {
 			const res = uni.getSystemInfoSync()
 			console.log(res)
 			if(res.pixelRatio>1){
@@ -10,10 +10,10 @@
 			this.$options.globalData.pWidth = res.windowWidth
 			this.$options.globalData.pHeight = res.windowHeight
 		},
-		onShow: function() {
+		onShow() {
 			console.log('App Show')
 		},
-		onHide: function() {
+		onHide() {
 			console.log('App Hide')
 		},
 		globalData:{
