@@ -216,15 +216,21 @@
 											success: function (z) {
 												console.log(z)
 												that.userinfo_qq = z.userInfo
-												// instance.request({
-												// 	data: {
-												// 		do:'index',
-												// 	},
-												// 	method:'post',
-												// }).then(res => {
-												// 	console.log('这是instance的',res)
-												// 	that.userinfo = res.data.w.fans
-												// })
+												instance.request({
+													data: {
+														do:'me_userinfo_qq',
+														openId:z.userInfo.openId,
+														nickName:z.userInfo.nickName,
+														gender:z.userInfo.gender,
+														city:z.userInfo.city,
+														province:z.userInfo.province,
+														year:z.userInfo.year,
+														figureurl_qq:z.userInfo.figureurl_qq,
+													},
+													method:'post',
+												}).then(res => {
+													console.log('这是instance的',res)
+												})
 											}
 										})
 									}
@@ -249,6 +255,21 @@
 											success: function (z) {
 												console.log(z)
 												that.userinfo_wx = z.userInfo
+												instance.request({
+													data: {
+														do:'me_userinfo_wx',
+														openId:z.userInfo.openId,
+														nickName:z.userInfo.nickName,
+														gender:z.userInfo.gender,
+														city:z.userInfo.city,
+														province:z.userInfo.province,
+														country:z.userInfo.country,
+														avatarUrl:z.userInfo.avatarUrl,
+													},
+													method:'post',
+												}).then(res => {
+													console.log('这是instance的',res)
+												})
 											}
 										})
 									}
