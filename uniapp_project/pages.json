@@ -13,11 +13,6 @@
 				"navigationBarBackgroundColor":"#418BC9",
 				"navigationBarTextStyle":"white"
 			}
-		},
-		{	"path": "pages/canvas/index",//画布页面
-			"style": {
-				"navigationBarTitleText": "canvas"
-			}
 		}
 	],
 	"easycom":{//公共引入，方便直接使用对应组件
@@ -28,6 +23,19 @@
 			"^u-(.*)": "@/components/uview-ui/components/u-$1/u-$1.vue"
 		}
 	},
+	"subPackages": [
+		//个人测试分包
+		{	"root": "pages/sub_package/test",
+			"pages": [
+				{	"path":"canvas/index",
+					"style":{
+						"navigationBarTitleText": "画布测试",
+						"usingComponents":{}
+					}
+				}
+			]
+		}
+	],
 	"tabBar": {
 		"position":"bottom",
 		"color": "#8f8f94",

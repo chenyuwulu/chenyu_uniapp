@@ -6,7 +6,7 @@
 		<view class="content">
 			<text class="title">{{list.w.current_module.description}}</text>
 		</view>
-		<u-tabbar :height="100" activeColor="#0071FE" :list="vuex_tabbar" />
+		<u-tabbar :height="100" activeColor="#418BC9" :list="vuex_tabbar" />
 	</view>
 </template>
 
