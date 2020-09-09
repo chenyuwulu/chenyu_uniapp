@@ -1,1 +1,2 @@
-[canvas示例](pages/canvas/README.md)
+## 2020-9-9
+开始重构优化，性能功能两开花。

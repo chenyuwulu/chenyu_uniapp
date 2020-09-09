@@ -1,29 +1,30 @@
 <template>
-	<view class="content">
+	<view class="page_box">
 		<!-- #ifdef H5 -->
 			<view>
-				<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
+				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
 			</view>
 			<view>{{userinfo.nickname}}</view>
 		<!-- #endif -->
 		<!-- #ifdef MP-WEIXIN || MP-TOUTIAO -->
-			<view>
-				<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatarUrl?userinfo.avatarUrl:'../../static/logo.png')" />
-			</view>
+			<u-gap height="100" />
+				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatarUrl?userinfo.avatarUrl:'../../static/logo.png')" />
+			<u-gap height="20" />
 			<view>{{userinfo.nickName}}</view>
 			<!-- #ifdef MP-WEIXIN -->
-			<view style="margin-top: 50rpx;">
+			<u-gap height="50" />
+			<view>
 				此按钮是原版的微擎方式,只使用微信小程序平台建议用此方法，
 				<text class="text-red">但是拒绝授权还是会执行request</text>
 			</view>
-			<button class="cu-btn bg-blue lg shadow" open-type="getUserInfo" @getuserinfo="mp_wx_weiqing_getuserinfo">用户授权</button>
+			<u-button shape="circle" type="success" :custom-style="{color:'#FFFFFF','background-color':'#418BC9'}" open-type="getUserInfo" @getuserinfo="mp_wx_weiqing_getuserinfo">用户授权</u-button>
 			<view style="margin-top: 50rpx;">此按钮脱离微擎封装方法，自己传加密数据自己解密，用于方便后期多平台使用(会记录在user_mp_wx表)</view>
-			<button class="cu-btn lines-blue lg shadow" open-type="getUserInfo" @getuserinfo="mp_wx_getuserinfo">用户授权</button>
+			<u-button shape="circle" type="success" :custom-style="{color:'#FFFFFF','background-color':'#418BC9'}" open-type="getUserInfo" @getuserinfo="mp_wx_getuserinfo">用户授权</u-button>
 			<!-- #endif -->
 		<!-- #endif -->
 		<!-- #ifdef MP-ALIPAY -->
 			<view>
-				<image style="width: 200upx;height: 200upx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
+				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
 				<view style="text-align: center;">{{userinfo.nickName}}</view>
 			<!-- 	<button type="primary" onGetAuthorize="onGetAuthorize" onError="onAuthError" open-type="getAuthorize" scope='userInfo'>
 				    会员基础信息授权
@@ -32,14 +33,15 @@
 		<!-- #endif -->
 		<!-- #ifdef APP-PLUS -->
 			<view style="width: 100%;display: flex;flex-direction:column">
-				<image style="width: 300upx;height: 300upx;align-self:center;" :src="userinfo_qq.figureurl_qq"></image>
+				<image style="width: 300rpx;height: 300rpx;align-self:center;" :src="userinfo_qq.figureurl_qq"></image>
 				<view style="align-self:center;">{{userinfo_qq.nickName}}</view>
 				<button class="cu-btn bg-blue lg shadow" @tap="get_userinfo_qq">QQ登录</button>
-				<image style="width: 300upx;height: 300upx;align-self:center;" :src="userinfo_wx.avatarUrl"></image>
+				<image style="width: 300rpx;height: 300rpx;align-self:center;" :src="userinfo_wx.avatarUrl"></image>
 				<view style="align-self:center;">{{userinfo_wx.nickName}}</view>
 				<button class="cu-btn bg-green lg shadow" @tap="get_userinfo_wx">微信登录</button>
 			</view>
 		<!-- #endif -->
+		<u-tabbar :height="100" activeColor="#418BC9" :list="vuex_tabbar" />
 	</view>
 </template>
 
@@ -55,6 +57,11 @@
 				userinfo_qq:{},
 				userinfo_wx:{}
 				// #endif
+			}
+		},
+		computed:{//tabbar使用
+			vuex_tabbar(){
+				return this.$store.state.vuex_tabbar
 			}
 		},
 		onLoad() {
@@ -172,26 +179,17 @@
 					}, e.detail)
 				},
 				mp_wx_getuserinfo(e){
-					const that = this
 					uni.login({
-						success: (x) => {
-							instance.request({
-								data: {
-									do:"me_getuserinfo",
-									code:x.code,
-									rawData:e.detail.rawData,
-									signature:e.detail.signature,
-									iv:e.detail.iv,
-									encryptedData:e.detail.encryptedData
-								},
-								method:'post',
-							}).then(res => {
+						success:x=> {
+							this.$u.post('',{//获取oss信息
+								do:"me_getuserinfo",
+								code:x.code,
+								rawData:e.detail.rawData,
+								signature:e.detail.signature,
+								iv:e.detail.iv,
+								encryptedData:e.detail.encryptedData
+							}).then(res=>{
 								console.log('这是instance的',res)
-								uni.showToast({
-								    title: '返回成功',
-								    duration: 2000
-								})
-								that.userinfo = res.data.data
 							})
 						}
 					})
@@ -283,26 +281,24 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	
-.content {
+.page_box {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 90%;
-	margin-left: 5%;
-	margin-right: 5%;
-	
+	padding-left: 36rpx;
+	padding-right: 36rpx;
 }
 
 .logo {
-	height: 200upx;
-	width: 200upx;
-	margin-top: 200upx;
+	height: 200rpx;
+	width: 200rpx;
+	margin-top: 200rpx;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 50upx;
+	margin-bottom: 50rpx;
 }
 
 .text-area {
@@ -311,7 +307,7 @@
 }
 
 .title {
-	font-size: 36upx;
+	font-size: 36rpx;
 	color: #8f8f94;
 }
 </style>
