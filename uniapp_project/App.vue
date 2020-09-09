@@ -24,8 +24,8 @@
 	}
 </script>
 
-<style>
-	/*每个页面公共css */
+<style lang="scss">
+	@import "@/components/uview-ui/index.scss";//引入uview的css库
 	@import "components/colorui/main.css";
 	@import "components/colorui/icon.css";
 	@import "components/colorui/animation.css";

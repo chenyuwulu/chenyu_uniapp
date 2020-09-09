@@ -19,6 +19,12 @@
 			}
 		}
 	],
+	"easycom":{
+		"autoscan":true,
+		"custom": {
+			"^u-(.*)": "@/components/uview-ui/components/u-$1/u-$1.vue"
+		}
+	},
 	"tabBar": {
 		"position":"bottom",
 		"color": "#8f8f94",

@@ -3,6 +3,9 @@ import App from './App'
 import util from './common/we7_js/util.js'
 import siteInfo from './common/we7_js/siteinfo.js'
 
+import uView from "./components/uview-ui"
+Vue.use(uView)
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'
