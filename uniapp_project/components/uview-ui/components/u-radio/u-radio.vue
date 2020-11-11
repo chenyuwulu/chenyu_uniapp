@@ -83,20 +83,15 @@
 					width: null,
 					height: null,
 					value: null,
+					wrap: null
 				}
 			};
 		},
 		created() {
 			this.parent = false;
 			// 支付宝小程序不支持provide/inject，所以使用这个方法获取整个父组件，在created定义，避免循环引用
-			this.parent = this.$u.$parent.call(this, 'u-radio-group');
-			if(this.parent) {
-				// 历遍parentData中的属性，将parent中的同名属性赋值给parentData
-				Object.keys(this.parentData).map(key => {
-					this.parentData[key] = this.parent[key];
-				});
-				this.parent.children.push(this);
-			}
+			this.updateParentData();
+			this.parent.children.push(this);
 		},
 		computed: {
 			// 是否禁用，如果父组件u-raios-group禁用的话，将会忽略子组件的配置
@@ -171,6 +166,9 @@
 			}
 		},
 		methods: {
+			updateParentData() {
+				this.getParentData('u-radio-group');
+			},
 			onClickLabel() {
 				if (!this.elLabelDisabled && !this.elDisabled) {
 					this.setRadioCheckedStatus();
@@ -183,11 +181,7 @@
 			},
 			emitEvent() {
 				// u-radio的name不等于父组件的v-model的值时(意味着未选中)，才发出事件，避免多次点击触发事件
-				// 等待下一个周期再执行，因为this.$emit('input')作用于父组件，再反馈到子组件内部，需要时间
-				// 头条需要延时的时间比较长，这里给比较大的值
-				setTimeout(() => {
-					if(this.parentData.value != this.name) this.$emit('change', this.name);
-				}, 80);
+				if(this.parentData.value != this.name) this.$emit('change', this.name);
 			},
 			// 改变组件选中状态
 			// 这里的改变的依据是，更改本组件的parentData.value值为本组件的name值，同时通过父组件遍历所有u-radio实例

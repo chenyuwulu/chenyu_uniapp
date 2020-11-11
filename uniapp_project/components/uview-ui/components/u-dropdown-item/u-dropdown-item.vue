@@ -1,19 +1,38 @@
 <template>
 	<view class="u-dropdown-item" v-if="active" @touchmove.stop.prevent="() => {}" @tap.stop.prevent="() => {}">
-		<view class="u-dropdown-item__options" v-if="!$slots.default">
-			<u-cell-group>
-				<u-cell-item @click="cellClick(item.value)" :arrow="false" :title="item.label" v-for="(item, index) in options" :key="index" :title-style="{
-					color: value == item.value ? activeColor : inactiveColor
-				}">
-					<u-icon v-if="value == item.value" name="checkbox-mark" :color="activeColor" size="32"></u-icon>
-				</u-cell-item>
-			</u-cell-group>
-		</view>
+		<block v-if="!$slots.default && !$slots.$default">
+			<scroll-view scroll-y="true" :style="{
+				height: $u.addUnit(height)
+			}">
+				<view class="u-dropdown-item__options">
+					<u-cell-group>
+						<u-cell-item @click="cellClick(item.value)" :arrow="false" :title="item.label" v-for="(item, index) in options"
+						 :key="index" :title-style="{
+							color: value == item.value ? activeColor : inactiveColor
+						}">
+							<u-icon v-if="value == item.value" name="checkbox-mark" :color="activeColor" size="32"></u-icon>
+						</u-cell-item>
+					</u-cell-group>
+				</view>
+			</scroll-view>
+		</block>
 		<slot v-else />
 	</view>
 </template>
 
 <script>
+	/**
+	 * dropdown-item 下拉菜单
+	 * @description 该组件一般用于向下展开菜单，同时可切换多个选项卡的场景
+	 * @tutorial http://uviewui.com/components/dropdown.html
+	 * @property {String | Number} v-model 双向绑定选项卡选择值
+	 * @property {String} title 菜单项标题
+	 * @property {Array[Object]} options 选项数据，如果传入了默认slot，此参数无效
+	 * @property {Boolean} disabled 是否禁用此选项卡（默认false）
+	 * @property {String | Number} duration 选项卡展开和收起的过渡时间，单位ms（默认300）
+	 * @property {String | Number} height 弹窗下拉内容的高度(内容超出将会滚动)（默认auto）
+	 * @example <u-dropdown-item title="标题"></u-dropdown-item>
+	 */
 	export default {
 		name: 'u-dropdown-item',
 		props: {
@@ -39,6 +58,11 @@
 				type: Boolean,
 				default: false
 			},
+			// 下拉弹窗的高度
+			height: {
+				type: [Number, String],
+				default: 'auto'
+			},
 		},
 		data() {
 			return {
@@ -57,7 +81,7 @@
 			propsChange(n) {
 				// 当值变化时，通知父组件重新初始化，让父组件执行每个子组件的init()方法
 				// 将所有子组件数据重新整理一遍
-				if(this.parent) this.parent.init();
+				if (this.parent) this.parent.init();
 			}
 		},
 		created() {
@@ -68,7 +92,7 @@
 			init() {
 				// 获取父组件u-dropdown
 				let parent = this.$u.$parent.call(this, 'u-dropdown');
-				if(parent) {
+				if (parent) {
 					this.parent = parent;
 					// 将子组件的激活颜色配置为父组件设置的激活和未激活时的颜色
 					this.activeColor = parent.activeColor;
@@ -78,8 +102,8 @@
 					let exist = parent.children.find(val => {
 						return this === val;
 					})
-					if(!exist) parent.children.push(this);
-					if(parent.children.length == 1) this.active = true;
+					if (!exist) parent.children.push(this);
+					if (parent.children.length == 1) this.active = true;
 					// 父组件无法监听children的变化，故将子组件的title，传入父组件的menuList数组中
 					parent.menuList.push({
 						title: this.title,
