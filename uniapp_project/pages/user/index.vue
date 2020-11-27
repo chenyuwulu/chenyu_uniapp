@@ -100,6 +100,8 @@
 									    duration: 2000
 									})
 									console.log('这是返回的',res)
+								}).catch(err=>{
+									console.log(err)
 								})
 						  }
 						})

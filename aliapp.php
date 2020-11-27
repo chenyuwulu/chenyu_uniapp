@@ -21,11 +21,13 @@ class Chenyu_uniappModuleAliapp extends WeModuleAliapp {
 
 	public function doPageGetuserinfo(){
 	    /*
-	     * 引入支付宝的php对应的sdk，对应版本可自行去支付宝开放平台查询
-	     * 不推荐引入在头部，因为阿里的sdk，大家心里清楚，冗余代码很多
-	     * 建议哪里用到再引入，尽可能避免效率问题  (因为作者的服务器很烂，服务器好的可忽略)
+	     * 自从支付宝去除了那个臃肿的php sdk引用框架后，现在是用到什么引入什么。
+	     * 但还是建议在哪里用到了，在哪里引入，其他地方不要引入。
+	     * 和以前的sdk的使用方式一样，最大区别就是，不能单单引用一个类，而是用到多少类，引用多少类
 	    */
-        include (IA_ROOT . '/addons/chenyu_uniapp/inc/SDK/alipay-sdk-PHP-3.4.2/AopSdk.php');
+//        include (IA_ROOT . '/addons/chenyu_uniapp/inc/SDK/alipay-sdk-PHP-3.4.2/AopSdk.php');
+        include (IA_ROOT . '/addons/chenyu_uniapp/inc/SDK/alipay-sdk-PHP-4.9.2/aop/AopClient.php');
+        include (IA_ROOT . '/addons/chenyu_uniapp/inc/SDK/alipay-sdk-PHP-4.9.2/aop/request/AlipaySystemOauthTokenRequest.php');
 	    global $_GPC, $_W;
         $list = pdo_fetch("SELECT * FROM " . tablename('chenyu_uniapp_site') . " WHERE uniacid=:uniacid ", array(':uniacid' => $_W['uniacid']));
         $siteinfo = unserialize($list['site']);
@@ -67,7 +69,6 @@ class Chenyu_uniappModuleAliapp extends WeModuleAliapp {
             $errno = 0;
             $data = $list;
         }
-
 
 
         return $this->result($errno, $message, array(
