@@ -21,8 +21,12 @@ if (empty($_W['fans']['nickname'])) {
 }
 
 die(json_encode(array(
-    'w'=>$_W,
-    'gpc'=>$_GPC
+    'data'=>array(
+        'w'=>$_W,
+        'gpc'=>$_GPC
+    ),
+    'message'=>"正常",
+    'errno'=>0
 )));
 //include $this->template('index');
 ?>

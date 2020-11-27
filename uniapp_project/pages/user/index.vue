@@ -46,9 +46,7 @@
 </template>
 
 <script>
-	import request from "@/common/pocky-request/index.js"
 	const app = getApp()
-	const instance = new request()
 	export default {
 		data() {
 			return {
@@ -68,16 +66,12 @@
 			
 		},
 		onShow() {
-			const that = this
 			// #ifdef H5
-				instance.request({
-					data: {
-						do:'index',
-					},
-					method:'post',
-				}).then(res => {
-					console.log('这是instance的',res)
-					that.userinfo = res.data.w.fans
+				this.$u.post('app/index.php',{
+					do:'index',
+				}).then(res=>{
+					console.log('这是返回的',res)
+					this.userinfo = res.data.w.fans
 				})
 			// #endif
 			
@@ -94,21 +88,18 @@
 						my.getAuthUserInfo({
 						  success: (x) => {
 								console.log(x)
-								that.userinfo = x
-								instance.request({
-									data: {
-										do:'getuserinfo',
-										authCode:z.authCode,
-										nickName:x.nickName,
-										avatar:x.avatar,
-									},
-									method:'post',
-								}).then(res => {
+								this.userinfo = x
+								this.$u.post('app/index.php',{
+									do:'getuserinfo',
+									authCode:z.authCode,
+									nickName:x.nickName,
+									avatar:x.avatar,
+								}).then(res=>{
 									uni.showToast({
 									    title: '返回成功',
 									    duration: 2000
 									})
-									console.log('这是instance的',res)
+									console.log('这是返回的',res)
 								})
 						  }
 						})
@@ -125,22 +116,19 @@
 							withCredentials:true,
 				      success: (y) => {
 				        console.log(y)
-								instance.request({
-									data: {
-										do:'getuserinfo',
-										code:z.code,
-										anonymous_code:z.anonymousCode,
-										encryptedData:y.encryptedData,
-										iv:y.iv
-									},
-									method:'post',
-								}).then(res => {
-									console.log('这是instance的',res)
+								this.$u.post('app/index.php',{
+									do:'getuserinfo',
+									code:z.code,
+									anonymous_code:z.anonymousCode,
+									encryptedData:y.encryptedData,
+									iv:y.iv
+								}).then(res=>{
 									uni.showToast({
-									    title: '返回成功',
-									    duration: 2000
+										title: '返回成功',
+										duration: 2000
 									})
-									that.userinfo = res.data.data
+									console.log('这是返回的',res)
+									this.userinfo = res.data.data
 								})
 				      }
 				    })
@@ -170,18 +158,17 @@
 			
 			// #ifdef MP-WEIXIN
 				mp_wx_weiqing_getuserinfo(e){
-					const that = this
 					let app_mp_weixin = app.$vm.$options
-					app_mp_weixin.util.getUserInfo(function(userInfo) {
+					app_mp_weixin.util.getUserInfo((userInfo)=> {
 						//这回userInfo为用户信息
 						 console.log(userInfo)
-						 that.userinfo = userInfo.wxInfo
+						 this.userinfo = userInfo.wxInfo
 					}, e.detail)
 				},
 				mp_wx_getuserinfo(e){
 					uni.login({
 						success:x=> {
-							this.$u.post('',{//获取oss信息
+							this.$u.post('app/index.php',{
 								do:"me_getuserinfo",
 								code:x.code,
 								rawData:e.detail.rawData,
@@ -189,7 +176,7 @@
 								iv:e.detail.iv,
 								encryptedData:e.detail.encryptedData
 							}).then(res=>{
-								console.log('这是instance的',res)
+								console.log('这是返回的',res)
 							})
 						}
 					})
@@ -198,11 +185,10 @@
 			
 			// #ifdef APP-PLUS
 				get_userinfo_qq(e){
-					const that = this
 					console.log(e)
 					uni.getProvider({
 						service: 'oauth',
-						success: function (res) {
+						success: (res)=> {
 							console.log(res)
 							if (~res.provider.indexOf('qq')) {
 								uni.login({
@@ -211,23 +197,20 @@
 										console.log(JSON.stringify(loginRes))
 										uni.getUserInfo({
 											provider: 'qq',
-											success: function (z) {
+											success: (z)=> {
 												console.log(z)
-												that.userinfo_qq = z.userInfo
-												instance.request({
-													data: {
-														do:'me_userinfo_qq',
-														openId:z.userInfo.openId,
-														nickName:z.userInfo.nickName,
-														gender:z.userInfo.gender,
-														city:z.userInfo.city,
-														province:z.userInfo.province,
-														year:z.userInfo.year,
-														figureurl_qq:z.userInfo.figureurl_qq,
-													},
-													method:'post',
-												}).then(res => {
-													console.log('这是instance的',res)
+												this.userinfo_qq = z.userInfo
+												this.$u.post('app/index.php',{
+													do:'me_userinfo_qq',
+													openId:z.userInfo.openId,
+													nickName:z.userInfo.nickName,
+													gender:z.userInfo.gender,
+													city:z.userInfo.city,
+													province:z.userInfo.province,
+													year:z.userInfo.year,
+													figureurl_qq:z.userInfo.figureurl_qq,
+												}).then(response=>{
+													console.log('这是返回的',response)
 												})
 											}
 										})
@@ -238,35 +221,31 @@
 					})
 				},
 				get_userinfo_wx(e){
-					const that = this
 					uni.getProvider({
 						service: 'oauth',
-						success: function (x) {
+						success: (x)=>{
 							console.log(x)
 							if (~x.provider.indexOf('weixin')) {
 								uni.login({
 									provider: "weixin",
-									success: function (loginRes) {
+									success: (loginRes)=> {
 										console.log(JSON.stringify(loginRes))
 										uni.getUserInfo({
 											provider: 'weixin',
-											success: function (z) {
+											success: (z)=>{
 												console.log(z)
-												that.userinfo_wx = z.userInfo
-												instance.request({
-													data: {
-														do:'me_userinfo_wx',
-														openId:z.userInfo.openId,
-														nickName:z.userInfo.nickName,
-														gender:z.userInfo.gender,
-														city:z.userInfo.city,
-														province:z.userInfo.province,
-														country:z.userInfo.country,
-														avatarUrl:z.userInfo.avatarUrl,
-													},
-													method:'post',
-												}).then(res => {
-													console.log('这是instance的',res)
+												this.userinfo_wx = z.userInfo
+												this.$u.post('app/index.php',{
+													do:'me_userinfo_wx',
+													openId:z.userInfo.openId,
+													nickName:z.userInfo.nickName,
+													gender:z.userInfo.gender,
+													city:z.userInfo.city,
+													province:z.userInfo.province,
+													country:z.userInfo.country,
+													avatarUrl:z.userInfo.avatarUrl,
+												}).then(response=>{
+													console.log('这是返回的',response)
 												})
 											}
 										})
@@ -282,32 +261,28 @@
 </script>
 
 <style lang="scss">
-	
-.page_box {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding-left: 36rpx;
-	padding-right: 36rpx;
-}
-
-.logo {
-	height: 200rpx;
-	width: 200rpx;
-	margin-top: 200rpx;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 50rpx;
-}
-
-.text-area {
-	display: flex;
-	justify-content: center;
-}
-
-.title {
-	font-size: 36rpx;
-	color: #8f8f94;
-}
+	.page_box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding-left: 36rpx;
+		padding-right: 36rpx;
+		.logo {
+			height: 200rpx;
+			width: 200rpx;
+			margin-top: 200rpx;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 50rpx;
+		}
+		.text-area {
+			display: flex;
+			justify-content: center;
+		}
+		.title {
+			font-size: 36rpx;
+			color: #8f8f94;
+		}
+	}
 </style>
