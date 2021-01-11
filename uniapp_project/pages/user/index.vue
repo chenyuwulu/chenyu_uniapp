@@ -62,9 +62,7 @@
 				return this.$store.state.vuex_tabbar
 			}
 		},
-		onLoad() {
-			
-		},
+		onLoad(options) {},
 		onShow() {
 			// #ifdef H5
 				this.$u.post('app/index.php',{
@@ -159,7 +157,7 @@
 			
 			
 			// #ifdef MP-WEIXIN
-				mp_wx_weiqing_getuserinfo(e){
+				mp_wx_weiqing_getuserinfo(e){//这是微擎自带的方法
 					let app_mp_weixin = app.$vm.$options
 					app_mp_weixin.util.getUserInfo((userInfo)=> {
 						//这回userInfo为用户信息
@@ -167,7 +165,7 @@
 						 this.userinfo = userInfo.wxInfo
 					}, e.detail)
 				},
-				mp_wx_getuserinfo(e){
+				mp_wx_getuserinfo(e){//这是自己封装的方法
 					uni.login({
 						success:x=> {
 							this.$u.post('app/index.php',{
@@ -186,7 +184,7 @@
 			// #endif
 			
 			// #ifdef APP-PLUS
-				get_userinfo_qq(e){
+				get_userinfo_qq(e){//qq快捷登录
 					console.log(e)
 					uni.getProvider({
 						service: 'oauth',
@@ -222,7 +220,7 @@
 						}
 					})
 				},
-				get_userinfo_wx(e){
+				get_userinfo_wx(e){//微信快捷登录
 					uni.getProvider({
 						service: 'oauth',
 						success: (x)=>{

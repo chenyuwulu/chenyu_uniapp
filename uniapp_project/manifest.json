@@ -57,6 +57,9 @@
                     }
                 }
             }
+        },
+        "uniStatistics" : {
+            "enable" : true
         }
     },
     /* 快应用特有相关 */
@@ -75,13 +78,22 @@
             "scope.userLocation" : {
                 "desc" : "授权位置信息"
             }
+        },
+        "uniStatistics" : {
+            "enable" : true
         }
     },
     "mp-alipay" : {
-        "usingComponents" : true
+        "usingComponents" : true,
+        "uniStatistics" : {
+            "enable" : true
+        }
     },
     "mp-baidu" : {
-        "usingComponents" : true
+        "usingComponents" : true,
+        "uniStatistics" : {
+            "enable" : true
+        }
     },
     "mp-toutiao" : {
         "usingComponents" : true,
@@ -91,6 +103,9 @@
             "postcss" : true,
             "minified" : true,
             "urlCheck" : false
+        },
+        "uniStatistics" : {
+            "enable" : true
         }
     },
     "h5" : {
@@ -105,11 +120,20 @@
         "sdkConfigs" : {
             "maps" : {}
         },
-        "domain" : "weiqing.chenyuwulu.top"
+        "domain" : "weiqing.chenyuwulu.top",
+        "uniStatistics" : {
+            "enable" : true
+        }
     },
     "mp-qq" : {
         "setting" : {
             "urlCheck" : false
+        },
+        "uniStatistics" : {
+            "enable" : true
         }
+    },
+    "uniStatistics" : {
+        "enable" : true
     }
 }
