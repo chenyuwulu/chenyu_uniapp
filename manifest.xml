@@ -6,7 +6,9 @@
 		<version><![CDATA[1.0.7]]></version>
 		<ability><![CDATA[uniapp微擎示例]]></ability>
 		<type><![CDATA[chenyu_uniapp]]></type>
-		<description><![CDATA[uniapp是一个跨端的前端开发框架，详细内容自行访问https://uniapp.dcloud.io查看文档本示例旨在帮助各开发者如何使用uniapp搭配微擎跨端开发交流QQ群36492501]]></description>
+		<description><![CDATA[uniapp是一个跨端的前端开发框架，详细内容自行访问https://uniapp.dcloud.io查看文档
+本示例旨在帮助各开发者如何使用uniapp搭配微擎跨端开发
+交流QQ群36492501]]></description>
 		<author><![CDATA[尘雨雾录]]></author>
 		<url><![CDATA[]]></url>
 		<setting><![CDATA[]]></setting>

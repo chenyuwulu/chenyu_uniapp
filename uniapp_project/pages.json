@@ -13,6 +13,13 @@
 				"navigationBarBackgroundColor":"#418BC9",
 				"navigationBarTextStyle":"white"
 			}
+		},
+		{	"path": "pages/user/login",//登录授权页面
+			"style": {
+				"navigationBarTitleText": "登录授权",
+				"navigationBarBackgroundColor":"#418BC9",
+				"navigationBarTextStyle":"white"
+			}
 		}
 	],
 	"easycom":{//公共引入，方便直接使用对应组件

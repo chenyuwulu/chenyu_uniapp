@@ -18,6 +18,15 @@ const store = new Vuex.Store({
 			}
 		],
 	},
+	mutations:{
+		
+	},
+	actions:{
+		
+	},
+	getters:{
+		
+	}
 })
 
 export default store

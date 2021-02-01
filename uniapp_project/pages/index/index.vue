@@ -1,6 +1,6 @@
 <template>
-	<view class="page_box" v-if="list!=null">
-		<u-gap height="100" />
+	<view class="chenyu_page page_box" v-if="list!=null">
+		<u-gap height="50"></u-gap>
 		<image class="logo" :src="list.w.current_module.logo" />
 		<u-gap height="50" />
 		<view class="content">
@@ -23,9 +23,11 @@
 			}
 		},
 		onLoad(options) {
-			//直接共用request，充分利用ifdef,样例中特意把h5版本和其他版本做了方法不同的区分。
-			//在实际使用中，全平台的方法名大多都是统一的，所以在写逻辑代码的时候，甚至都不需要区分平台方法
-			//！！！注意在config,siteinfo配置中详细配置区分！！！
+			/*
+			直接共用request，充分利用ifdef,样例中特意把h5版本和其他版本做了方法不同的区分。
+			在实际使用中，全平台的方法名大多都是统一的，所以在写逻辑代码的时候，甚至都不需要区分平台方法
+			！！！注意在config,siteinfo配置中详细配置区分！！！
+			*/
 			this.$u.post('app/index.php',{//直接使用uview的封装方法来调用
 				// #ifdef MP-WEIXIN || MP-ALIPAY || MP-TOUTIAO || APP-PLUS
 					do:'test',
@@ -38,16 +40,15 @@
 			})
 		},
 		onShow(){},
-		methods: {}
+		methods: {
+			
+		}
 	}
 </script>
 
 <style lang="scss">
 .page_box {
-	display: flex;
-	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	.logo{
 		width: 200rpx;
 		height: 200rpx;

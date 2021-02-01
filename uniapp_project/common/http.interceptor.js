@@ -5,7 +5,6 @@ import siteInfo from '@/common/we7_js/siteinfo.js'
 const install = (Vue, vm) => {
 	Vue.prototype.$u.http.setConfig({
 		baseUrl: siteInfo.siteroot,//开发服务器
-		// baseUrl: 'https://minipro.elefrog.com:2443/',//正式服务器
 		// 如果将此值设置为true，拦截回调中将会返回服务端返回的所有数据response，而不是response.data
 		// 设置为true后，就需要在this.$u.http.interceptor.response进行多一次的判断，请打印查看具体值
 		// originalData: true, 
@@ -48,7 +47,7 @@ const install = (Vue, vm) => {
 		// #endif
 		config.data.v = siteInfo.version
 		config.data.m = siteInfo.name
-		console.warn('这是'+config.url+'的发起参数',config)
+		console.warn("%c发起请求:","color:#0811ff;font-size:20px;font-weight:bold;",config)
 		return config
 	}
 	// 响应拦截，判断状态码是否通过
@@ -56,6 +55,7 @@ const install = (Vue, vm) => {
 		// 如果把originalData设置为了true，这里得到将会是服务器返回的所有的原始数据
 		// 判断可能变成了res.statueCode，或者res.data.code之类的，请打印查看结果
 		// console.log('这是拦截器',res)
+		console.warn("%c回调:","color:#0811ff;font-size:20px;font-weight:bold;",res)
 		if(res.errno == 0) {
 			// console.log('这是拦截器',res)
 			// 如果把originalData设置为了true，这里return回什么，this.$u.post的then回调中就会得到什么
