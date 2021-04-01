@@ -2,7 +2,7 @@
 	<view class="uni-navbar">
 		<view :class="{ 'uni-navbar--fixed': fixed, 'uni-navbar--shadow': shadow, 'uni-navbar--border': border }" :style="{ 'background-color': backgroundColor }"
 		 class="uni-navbar__content">
-			<uni-status-bar v-if="statusBar" />
+			<status-bar v-if="statusBar" />
 			<view :style="{ color: color,backgroundColor: backgroundColor }" class="uni-navbar__header uni-navbar__content_view">
 				<view @tap="onClickLeft" class="uni-navbar__header-btns uni-navbar__header-btns-left uni-navbar__content_view">
 					<view class="uni-navbar__content_view" v-if="leftIcon.length">
@@ -34,15 +34,14 @@
 			</view>
 		</view>
 		<view class="uni-navbar__placeholder" v-if="fixed">
-			<uni-status-bar v-if="statusBar" />
+			<status-bar v-if="statusBar" />
 			<view class="uni-navbar__placeholder-view" />
 		</view>
 	</view>
 </template>
 
 <script>
-	import uniStatusBar from "../uni-status-bar/uni-status-bar.vue";
-	import uniIcons from "../uni-icons/uni-icons.vue";
+	import statusBar from "./uni-status-bar.vue";
 
 	/**
 	 * NavBar 自定义导航栏
@@ -65,8 +64,7 @@
 	export default {
 		name: "UniNavBar",
 		components: {
-			uniStatusBar,
-			uniIcons
+			statusBar
 		},
 		props: {
 			title: {
@@ -153,7 +151,7 @@
 		position: relative;
 		background-color: $uni-bg-color;
 		overflow: hidden;
-		width: 750rpx;
+		// width: 750rpx;
 	}
 
 	.uni-navbar__content_view {
@@ -185,6 +183,9 @@
 		padding: 0 6px;
 		justify-content: center;
 		align-items: center;
+		/* #ifdef H5 */
+		cursor: pointer;
+		/* #endif */
 	}
 
 	.uni-navbar__header-btns-left {

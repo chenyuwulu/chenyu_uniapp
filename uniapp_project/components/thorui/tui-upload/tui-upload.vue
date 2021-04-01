@@ -1,8 +1,8 @@
 <template>
 	<view class="tui-container">
 		<view class="tui-upload-box">
-			<view class="tui-image-item" v-for="(item,index) in imageList" :key="index">
-				<image :src="item" class="tui-item-img" @tap.stop="previewImage(index)" mode="aspectFill"></image>
+			<view class="tui-image-item" :style="{width:width+'rpx',height:height+'rpx'}" v-for="(item,index) in imageList" :key="index">
+				<image :src="item" class="tui-item-img" :style="{width:width+'rpx',height:height+'rpx'}" @tap.stop="previewImage(index)" mode="aspectFill"></image>
 				<view v-if="!forbidDel" class="tui-img-del" @tap.stop="delImage(index)"></view>
 				<view v-if="statusArr[index]!=1" class="tui-upload-mask">
 					<view class="tui-upload-loading" v-if="statusArr[index]==2"></view>
@@ -11,7 +11,7 @@
 					 :hover-stay-time="150">重新上传</view>
 				</view>
 			</view>
-			<view v-if="isShowAdd" class="tui-upload-add" @tap="chooseImage">
+			<view v-if="isShowAdd" class="tui-upload-add" :style="{width:width+'rpx',height:height+'rpx'}" @tap="chooseImage">
 				<view class="tui-upload-icon tui-icon-plus"></view>
 			</view>
 		</view>
@@ -22,6 +22,16 @@
 	export default {
 		name: 'tuiUpload',
 		props: {
+			//展示图片宽度
+			width:{
+				type:[Number,String],
+				default:220
+			},
+			//展示图片高度
+			height:{
+				type:[Number,String],
+				default:220
+			},
 			//初始化图片路径
 			value: {
 				type: Array,
@@ -39,7 +49,7 @@
 				type: Boolean,
 				default: false
 			},
-			//服务器地址
+			//服务器接口地址。当接口地址为空时，直接返回本地图片地址
 			serverUrl: {
 				type: String,
 				default: ""
@@ -75,7 +85,7 @@
 				type: Number,
 				default: 4
 			},
-			//项目名，默认为 file
+			//文件对应的key，默认为 file
 			fileKeyName: {
 				type: String,
 				default: "file"
@@ -93,6 +103,11 @@
 				default () {
 					return {}
 				}
+			},
+			//自定义参数
+			params: {
+				type: [Number, String],
+				default: 0
 			}
 		},
 		data() {
@@ -139,7 +154,10 @@
 					this.change()
 				})
 			},
-			change() {
+			/**
+			 * @param manual 是否手动上传
+			 **/
+			change(manual = false) {
 				let status = ~this.statusArr.indexOf("2") ? 2 : 1
 				if (status != 2 && ~this.statusArr.indexOf("3")) {
 					// 上传失败
@@ -147,7 +165,9 @@
 				}
 				this.$emit('complete', {
 					status: status,
-					imgArr: this.imageList
+					imgArr: this.imageList,
+					params: this.params,
+					manual: manual
 				})
 			},
 			toast(text) {
@@ -194,8 +214,8 @@
 							//过滤超出大小限制图片
 							let size = e.tempFiles[i].size;
 
-							if (_this.size * 1024 * 1024 < size){
-								let err=`单张图片大小不能超过：${_this.size}MB`
+							if (_this.size * 1024 * 1024 < size) {
+								let err = `单张图片大小不能超过：${_this.size}MB`
 								_this.toast(err);
 								continue;
 							}
@@ -224,11 +244,11 @@
 					}
 				})
 			},
-			uploadImage: function(index, url) {
+			uploadImage: function(index, url, serverUrl) {
 				let _this = this;
 				return new Promise((resolve, reject) => {
 					uni.uploadFile({
-						url: this.serverUrl,
+						url: this.serverUrl || serverUrl,
 						name: this.fileKeyName,
 						header: this.header,
 						formData: this.formData,
@@ -264,7 +284,8 @@
 				this.imageList.splice(index, 1)
 				this.statusArr.splice(index, 1)
 				this.$emit("remove", {
-					index: index
+					index: index,
+					params: this.params
 				})
 				this.change()
 			},
@@ -275,6 +296,35 @@
 					loop: true,
 					urls: this.imageList
 				})
+			},
+			/**
+			 * 当属性serverUrl传空时，父级调用该方法一次性上传所有图片
+			 * @param serverUrl 服务器接口地址
+			 **/
+			uploadAllImage(serverUrl) {
+				if (!serverUrl) {
+					this.toast('服务器接口地址不能为空！');
+					return;
+				}
+				let imageArr = [...this.imageList]
+				const len = imageArr.length
+				for (let i = 0; i < len; i++) {
+					//如果是服务器地址图片则无需再次上传
+					if(imageArr[i].startsWith('http')){
+						continue;
+					}else{
+						this.$set(this.statusArr, i, "2")
+						this.uploadImage(i, imageArr[i], serverUrl).then(() => {
+							if (i === len - 1) {
+								this.change(true)
+							}
+						}).catch(() => {
+							if (i === len - 1) {
+								this.change(true)
+							}
+						})
+					}
+				}
 			}
 		}
 	}
@@ -311,8 +361,6 @@
 	}
 
 	.tui-upload-add {
-		width: 220rpx;
-		height: 220rpx;
 		font-size: 68rpx;
 		font-weight: 100;
 		color: #888;
@@ -324,8 +372,6 @@
 	}
 
 	.tui-image-item {
-		width: 220rpx;
-		height: 220rpx;
 		position: relative;
 		margin-right: 20rpx;
 		margin-bottom: 20rpx;
@@ -336,8 +382,6 @@
 	}
 
 	.tui-item-img {
-		width: 220rpx;
-		height: 220rpx;
 		display: block;
 	}
 
@@ -373,7 +417,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-around;
+		justify-content: center;
 		padding: 40rpx 0;
 		box-sizing: border-box;
 		background-color: rgba(0, 0, 0, 0.6);
@@ -413,6 +457,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		flex-shrink: 0;
+		margin-top: 26rpx;
 	}
 
 	.tui-btn-hover {

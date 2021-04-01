@@ -2,7 +2,7 @@
     <view class="uni-table-tr">
         <checkbox-group v-if="selection === 'selection'" class="checkbox" :class="{'tr-table--border':border}" @change="change">
             <label>
-                <checkbox value="check" :checked="value"/>
+                <checkbox value="check" :checked="value" :disabled="!selectable"/>
             </label>
         </checkbox-group>
         <slot></slot>
@@ -17,6 +17,12 @@
 	 */
     export default {
         name: 'uniTr',
+        props: {
+			selectable: {
+				type: Boolean,
+				default: true
+			}
+		},
         options: {
             virtualHost: true
         },
@@ -76,40 +82,46 @@
 
 <style lang="scss">
     .uni-table-tr {
+			/* #ifndef APP-NVUE */
         display: table-row;
         transition: all .3s;
         box-sizing: border-box;
+				/* #endif */
     }
 
     .checkbox {
         padding: 12px 8px;
         width: 26px;
         padding-left: 12px;
+			/* #ifndef APP-NVUE */
         display: table-cell;
-        // text-align: center;
         vertical-align: middle;
+				/* #endif */
         color: #333;
         font-weight: 500;
         border-bottom: 1px #ddd solid;
         font-size: 14px;
+        // text-align: center;
     }
 
     .tr-table--border {
         border-right: 1px #ddd solid;
     }
 
+		/* #ifndef APP-NVUE */
     .uni-table-tr {
-        /deep/ .uni-table-th {
+        ::v-deep .uni-table-th {
             &.table--border:last-child {
                 border-right: none;
             }
         }
-        /deep/ .uni-table-td {
+        ::v-deep .uni-table-td {
             &.table--border:last-child {
                 border-right: none;
             }
         }
     }
+		/* #endif */
 
 
 

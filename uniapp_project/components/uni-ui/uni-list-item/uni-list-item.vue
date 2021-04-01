@@ -39,9 +39,6 @@
 </template>
 
 <script>
-import uniIcons from '../uni-icons/uni-icons.vue';
-import uniBadge from '../uni-badge/uni-badge.vue';
-
 /**
  * ListItem 列表子组件
  * @description 列表子组件
@@ -77,10 +74,6 @@ import uniBadge from '../uni-badge/uni-badge.vue';
  */
 export default {
 	name: 'UniListItem',
-	components: {
-		uniIcons,
-		uniBadge
-	},
 	props: {
 		direction: {
 			type: String,
@@ -169,19 +162,36 @@ export default {
 			default: true
 		}
 	},
-	inject: ['list'],
+	// inject: ['list'],
 	data() {
 		return {
 			isFirstChild: false
 		};
 	},
 	mounted() {
-		if (!this.list.firstChildAppend) {
-			this.list.firstChildAppend = true;
-			this.isFirstChild = true;
+		this.list = this.getForm()
+		// 判断是否存在 uni-list 组件
+		if(this.list){
+			if (!this.list.firstChildAppend) {
+				this.list.firstChildAppend = true;
+				this.isFirstChild = true;
+			}
 		}
 	},
 	methods: {
+		/**
+		 * 获取父元素实例
+		 */
+		getForm(name = 'uniList') {
+			let parent = this.$parent;
+			let parentName = parent.$options.name;
+			while (parentName !== name) {
+				parent = parent.$parent;
+				if (!parent) return false
+				parentName = parent.$options.name;
+			}
+			return parent;
+		},
 		onClick() {
 			if (this.to !== '') {
 				this.openPage();
@@ -233,8 +243,12 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	font-size: $uni-font-size-lg;
 	position: relative;
 	justify-content: space-between;
+	align-items: center;
 	background-color: #fff;
 	flex-direction: row;
+	/* #ifdef H5 */
+	cursor: pointer;
+	/* #endif */
 }
 
 .uni-list-item--disabled {
@@ -354,6 +368,7 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	/* #endif */
 	height: $uni-img-size-base;
 	width: $uni-img-size-base;
+	margin-right: 10px;
 }
 
 .uni-icon-wrapper {
