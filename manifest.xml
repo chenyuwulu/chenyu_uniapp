@@ -3,7 +3,7 @@
 	<application setting='false'>
 		<name><![CDATA[uniapp微擎示例]]></name>
 		<identifie><![CDATA[chenyu_uniapp]]></identifie>
-		<version><![CDATA[1.0.7]]></version>
+		<version><![CDATA[1.0.8]]></version>
 		<ability><![CDATA[uniapp微擎示例]]></ability>
 		<type><![CDATA[chenyu_uniapp]]></type>
 		<description><![CDATA[uniapp是一个跨端的前端开发框架，详细内容自行访问https://uniapp.dcloud.io查看文档
