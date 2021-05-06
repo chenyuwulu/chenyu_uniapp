@@ -1,27 +1,33 @@
 <template>
 	<view class="page_box">
+		
 		<!-- #ifdef H5 -->
-			<view>
-				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
-			</view>
+			<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'/static/logo.png')" />
 			<view>{{userinfo.nickname}}</view>
 		<!-- #endif -->
-		<!-- #ifdef MP-WEIXIN || MP-TOUTIAO -->
+		
+		<!-- #ifdef MP-WEIXIN -->
 			<u-gap height="100" />
-				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatarUrl?userinfo.avatarUrl:'../../static/logo.png')" />
+				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatarUrl?userinfo.avatarUrl:'/static/logo.png')" />
 			<u-gap height="20" />
 			<view>{{userinfo.nickName}}</view>
-			<!-- #ifdef MP-WEIXIN -->
 			<u-gap height="50" />
 			<view>
-				此按钮是原版的微擎方式,只使用微信小程序平台建议用此方法，
+				此按钮是原微擎方法，鉴于微信小程序改版了获取openid和用户信息。不推荐用
 				<text class="text-red">但是拒绝授权还是会执行request</text>
 			</view>
 			<u-button shape="circle" type="success" :custom-style="{color:'#FFFFFF','background-color':'#418BC9'}" open-type="getUserInfo" @getuserinfo="mp_wx_weiqing_getuserinfo">用户授权</u-button>
 			<view style="margin-top: 50rpx;">此按钮脱离微擎封装方法，自己传加密数据自己解密，用于方便后期多平台使用(会记录在user_mp_wx表)</view>
-			<u-button shape="circle" type="success" :custom-style="{color:'#FFFFFF','background-color':'#418BC9'}" open-type="getUserInfo" @getuserinfo="mp_wx_getuserinfo">用户授权</u-button>
-			<!-- #endif -->
+			<u-button shape="circle" type="success" :custom-style="{color:'#FFFFFF','background-color':'#418BC9'}" @click="mp_wx_getuserinfo">用户授权</u-button>
 		<!-- #endif -->
+		
+		<!-- #ifdef MP-TOUTIAO -->
+			<u-gap height="100" />
+				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatarUrl?userinfo.avatarUrl:'/static/logo.png')" />
+			<u-gap height="20" />
+			<view>{{userinfo.nickName}}</view>
+		<!-- #endif -->
+		
 		<!-- #ifdef MP-ALIPAY -->
 			<view>
 				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
@@ -31,6 +37,7 @@
 				</button> -->
 			</view>
 		<!-- #endif -->
+		
 		<!-- #ifdef APP-PLUS -->
 			<view style="width: 100%;display: flex;flex-direction:column">
 				<image style="width: 300rpx;height: 300rpx;align-self:center;" :src="userinfo_qq.figureurl_qq"></image>
@@ -41,6 +48,7 @@
 				<button class="cu-btn bg-green lg shadow" @tap="get_userinfo_wx">微信登录</button>
 			</view>
 		<!-- #endif -->
+		
 		<u-tabbar :height="100" activeColor="#418BC9" :list="vuex_tabbar" />
 	</view>
 </template>
@@ -50,6 +58,10 @@
 	export default {
 		data() {
 			return {
+				// #ifdef MP-WEIXIN || MP-QQ || MP-TOUTIAO
+					login_code:"",
+					login_timestamp:0,
+				// #endif
 				userinfo:{},
 				// #ifdef APP-PLUS
 				userinfo_qq:{},
@@ -62,7 +74,11 @@
 				return this.$store.state.vuex_tabbar
 			}
 		},
-		onLoad(options) {},
+		onLoad(options) {
+			// #ifdef MP-WEIXIN || MP-QQ || MP-TOUTIAO
+				this.mp_get_logincode()
+			// #endif
+		},
 		onShow() {
 			// #ifdef H5
 				this.$u.post('app/index.php',{
@@ -78,7 +94,6 @@
 			// #endif
 			
 			// #ifdef MP-ALIPAY
-				//这是阿里的老毛病的，只要能跑，就知足吧,主要是后端这边的SDK贼大，拖慢效率
 				my.getAuthCode({
 				  scopes: 'auth_user',
 				  success: (z) => {
@@ -161,23 +176,46 @@
 					let app_mp_weixin = app.$vm.$options
 					app_mp_weixin.util.getUserInfo((userInfo)=> {
 						//这回userInfo为用户信息
-						 console.log(userInfo)
-						 this.userinfo = userInfo.wxInfo
+						console.log(userInfo)
+						this.userinfo = userInfo.wxInfo
 					}, e.detail)
 				},
 				mp_wx_getuserinfo(e){//这是自己封装的方法
-					uni.login({
-						success:x=> {
-							this.$u.post('app/index.php',{
-								do:"me_getuserinfo",
-								code:x.code,
-								rawData:e.detail.rawData,
-								signature:e.detail.signature,
-								iv:e.detail.iv,
-								encryptedData:e.detail.encryptedData
-							}).then(res=>{
-								console.log('这是返回的',res)
-							})
+					uni.getUserProfile({
+						desc:"获取用户信息",
+						lang:"zh_CN",
+						success:info=>{
+							if(this.login_timestamp>new Date().getTime()){
+								this.$u.post('app/index.php',{
+									do:"me_getuserinfo",
+									code:this.login_code,
+									rawData:info.rawData,
+									signature:info.signature,
+									iv:info.iv,
+									encryptedData:info.encryptedData
+								}).then(res=>{
+									this.userinfo = res
+								})
+								this.mp_get_logincode()
+							} else {
+								uni.login({
+									success: (x) => {
+										this.$u.post('app/index.php',{
+											do:"me_getuserinfo",
+											code:x.code,
+											rawData:info.rawData,
+											signature:info.signature,
+											iv:info.iv,
+											encryptedData:info.encryptedData
+										}).then(res=>{
+											this.userinfo = res
+										})
+									}
+								})
+							}
+						},
+						fail:err=>{
+							console.log(err)
 						}
 					})
 				},
@@ -252,6 +290,17 @@
 									}
 								})
 							}
+						}
+					})
+				},
+			// #endif
+			
+			// #ifdef MP-WEIXIN || MP-QQ || MP-TOUTIAO
+				mp_get_logincode(e){//刷新data里的code时效
+					uni.login({
+						success: (res) => {
+							this.login_timestamp = new Date().getTime()+(5*60*1000)
+							this.login_code = res.code
 						}
 					})
 				},

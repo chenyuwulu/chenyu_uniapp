@@ -36,7 +36,7 @@ class Chenyu_uniappModuleWxapp extends WeModuleWxapp {
         $pc =new WXBizDataCrypt($_W['account']['key'],$session_key);
         $errCode = $pc->decryptData($_GPC['encryptedData'], $_GPC['iv'], $datas);  //其中$data包含用户的所有数据
         $datas = json_decode($datas,true);
-        $list = pdo_fetch('select * from '.tablename('chenyu_uniapp_user_mp_wx').' where uniacid=:uniacid and openId=:openId ',array(':uniacid'=>$_W['uniacid'],':openId'=>$datas['openId']));
+        $list = pdo_fetch('select * from '.tablename('chenyu_uniapp_user_mp_wx').' where uniacid=:uniacid and openId=:openId ',array(':uniacid'=>$_W['uniacid'],':openId'=>$openid));
         if(empty($list)){
             $errno = 0;
             $info = array(
@@ -47,13 +47,13 @@ class Chenyu_uniappModuleWxapp extends WeModuleWxapp {
                 'gender'=>$datas['gender'],
                 'language'=>$datas['language'],
                 'nickName'=>$datas['nickName'],
-                'openId'=>$datas['openId'],
+                'openId'=>$openid,
                 'province'=>$datas['province'],
                 'createtime'=>time(),
             );
             $result=pdo_insert('chenyu_uniapp_user_mp_wx', $info);
             if (!empty($result)) {
-                $userlist = pdo_fetch("SELECT * FROM ".tablename('chenyu_uniapp_user_mp_wx')." WHERE uniacid=:uniacid and openId=:openId ", array(':uniacid'=>$_W['uniacid'],':openId'=>$datas['openId']));
+                $userlist = pdo_fetch("SELECT * FROM ".tablename('chenyu_uniapp_user_mp_wx')." WHERE uniacid=:uniacid and openId=:openId ", array(':uniacid'=>$_W['uniacid'],':openId'=>$openid));
                 $data = $userlist;
             }
         } else {
