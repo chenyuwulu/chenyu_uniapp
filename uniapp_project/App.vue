@@ -24,12 +24,9 @@
 <style lang="scss">
 	@import "@/components/uview-ui/index.scss";//引入uview的css库
 	.chenyu_page{//统一的box设置
-		display: flex;
-		flex-direction: column;
 		color: #000000;
 		height: auto;
 		min-height: 100vh;
 		background-color: #F8F8F8;
-		
 	}
 </style>

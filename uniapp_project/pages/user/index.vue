@@ -1,5 +1,5 @@
 <template>
-	<view class="page_box">
+	<view class="chenyu_page page_box">
 		
 		<!-- #ifdef H5 -->
 			<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'/static/logo.png')" />
@@ -314,7 +314,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
 		padding-left: 36rpx;
 		padding-right: 36rpx;
 		.logo {

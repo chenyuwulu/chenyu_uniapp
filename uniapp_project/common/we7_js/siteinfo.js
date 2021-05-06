@@ -2,8 +2,8 @@
 const siteInfo = {
 	'name': 'chenyu_uniapp', //你的模块名称
 	'title': '',//标题名
-	'uniacid': '1',//微擎区分公众号，小程序，app等平台的id
-	'acid': '1',//微擎区分公众号，小程序，app等平台的id
+	'uniacid': '10',//微擎区分公众号，小程序，app等平台的id
+	'acid': '10',//微擎区分公众号，小程序，app等平台的id
 	'multiid': '0',
 	'version': '1.0.0',//版本号，和你后台创建的版本号要对应
 	'siteroot': 'https://weiqing.chenyuwulu.top'//你的微擎域名地址

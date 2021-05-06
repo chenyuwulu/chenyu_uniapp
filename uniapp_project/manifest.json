@@ -116,7 +116,8 @@
             "base" : "/addons/chenyu_uniapp/template/mobile/h5/"
         },
         "devServer" : {
-            "https" : false
+            "https" : false,
+            "port" : ""
         },
         "sdkConfigs" : {
             "maps" : {}
@@ -124,6 +125,11 @@
         "domain" : "weiqing.chenyuwulu.top",
         "uniStatistics" : {
             "enable" : true
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
         }
     },
     "mp-qq" : {

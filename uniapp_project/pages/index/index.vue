@@ -46,6 +46,8 @@
 
 <style lang="scss">
 .page_box {
+	display: flex;
+	flex-direction: column;
 	align-items: center;
 	.logo{
 		width: 200rpx;

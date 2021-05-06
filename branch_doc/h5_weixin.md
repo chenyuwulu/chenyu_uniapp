@@ -1,6 +1,6 @@
-# 微信公众号
+# 微信公众号(移动端web)
 
-## 如何使用
+## 如何查看
 1. 通过`HBuilderX`工具打开`uniapp_project`文件夹
 2. 将`/common/we7_js/siteinfo.js`中的微信公众号的部分改为自己微擎后端对应的数据
 ```js
@@ -17,3 +17,6 @@ const siteInfo = {
 // #endif
 ```
 3. 根据`HBuilderX`工具所提供的运行功能，运行对应的微信开发工具查看。
+
+##如何开发调试
+1.首先建议不要在
