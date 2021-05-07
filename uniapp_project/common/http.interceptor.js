@@ -4,7 +4,7 @@ import siteInfo from '@/common/we7_js/siteinfo.js'
 // 同时，我们也可以在此使用getApp().globalData，如果你把token放在getApp().globalData的话，也是可以使用的
 const install = (Vue, vm) => {
 	Vue.prototype.$u.http.setConfig({
-		baseUrl: siteInfo.siteroot,//开发服务器
+		// baseUrl: siteInfo.siteroot,//开发服务器
 		// 如果将此值设置为true，拦截回调中将会返回服务端返回的所有数据response，而不是response.data
 		// 设置为true后，就需要在this.$u.http.interceptor.response进行多一次的判断，请打印查看具体值
 		// originalData: true, 

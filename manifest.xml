@@ -6,9 +6,7 @@
 		<version><![CDATA[2.0.0]]></version>
 		<ability><![CDATA[uniapp微擎示例]]></ability>
 		<type><![CDATA[chenyu_uniapp]]></type>
-		<description><![CDATA[uniapp是一个跨端的前端开发框架，详细内容自行访问https://uniapp.dcloud.io查看文档
-本示例旨在帮助各开发者如何使用uniapp搭配微擎跨端开发
-交流QQ群36492501]]></description>
+		<description><![CDATA[https://github.com/chenyuwulu/chenyu_uniapp]]></description>
 		<author><![CDATA[尘雨雾录]]></author>
 		<url><![CDATA[]]></url>
 		<setting><![CDATA[]]></setting>
@@ -17,15 +15,15 @@
 		<rule embed="false" />
 		<rule embed="false" />
 	<supports>
-<!--		微信小程序-->
+<!--		支持微信小程序-->
 		<item type="wxapp" />
-<!--		微信公众号-->
+<!--		支持微信公众号-->
 		<item type="app" />
-<!--		支付宝小程序-->
+<!--		支持支付宝小程序-->
 		<item type="aliapp" />
-<!--		字节跳动小程序-->
+<!--		支持字节跳动小程序-->
 		<item type="toutiaoapp" />
-<!--		Android-->
+<!--		支持Android-->
 		<item type="android" />
 	</supports>
 	</platform>
@@ -47,7 +45,7 @@
 				<entry title="用户管理" do="android_user" parent="android" displayorder="1" />
 		</menu>
 	</bindings>
-	<install><![CDATA[sql/install.php]]></install>
+	<install><![CDATA[]]></install>
 	<uninstall><![CDATA[]]></uninstall>
-	<upgrade><![CDATA[sql/upgrade.php]]></upgrade>
+	<upgrade><![CDATA[]]></upgrade>
 </manifest>

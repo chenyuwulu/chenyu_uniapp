@@ -130,7 +130,8 @@
             "treeShaking" : {
                 "enable" : true
             }
-        }
+        },
+        "template" : "template_h5.html"
     },
     "mp-qq" : {
         "setting" : {

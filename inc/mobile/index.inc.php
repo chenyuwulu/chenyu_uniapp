@@ -12,18 +12,19 @@ global $_W, $_GPC;
 //$x = 'jsapi_ticket='.$jsapi_ticket.'&noncestr='.$noncestr.'&timestamp='.$timestamp.'url='.$url;
 //$y = sha1($x);
 //$account_api = WeAccount::create();
-//$jssdk = $account_api->getJssdkConfig('https://192.168.8.63/h5/');
-//$jssdk = $account_api->getJssdkConfig('https://weiqing.chenyuwulu.top/h5/');
+//$jssdk = $account_api->getJssdkConfig('http://localhost:8080/addons/chenyu_uniapp/template/mobile/h5/');
+//$jssdk = $account_api->getJssdkConfig('https://weiqing.chenyuwulu.top/addons/chenyu_uniapp/template/mobile/h5/');
 
 //var_dump(111);die;
-if (empty($_W['fans']['nickname'])) {
-    mc_oauth_userinfo();
-}
+//if (empty($_W['fans']['nickname'])) {
+//    mc_oauth_userinfo();
+//}
 
 die(json_encode(array(
     'data'=>array(
         'w'=>$_W,
-        'gpc'=>$_GPC
+        'gpc'=>$_GPC,
+//        'jssdk'=>$jssdk
     ),
     'message'=>"正常",
     'errno'=>0

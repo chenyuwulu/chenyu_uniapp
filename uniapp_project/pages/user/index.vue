@@ -48,8 +48,8 @@
 				<button class="cu-btn bg-green lg shadow" @tap="get_userinfo_wx">微信登录</button>
 			</view>
 		<!-- #endif -->
-		
-		<u-tabbar :height="100" activeColor="#418BC9" :list="vuex_tabbar" />
+
+		<u-tabbar :icon-size="60" :height="120" :border-top="true"  activeColor="#418BC9" :list="vuex_tabbar" />
 	</view>
 </template>
 
