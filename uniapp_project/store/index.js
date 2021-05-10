@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import wx_jssdk from "@/common/wx_jssdk.js"
 Vue.use(Vuex)
-
 const store = new Vuex.Store({
 	state: {
+		jssdk:wx_jssdk,//将jssdk放入state中
 		vuex_tabbar: [//uview的tabbar
 			{	text: '首页',
 				iconPath: "/static/tabbar/home.png",
@@ -19,7 +19,21 @@ const store = new Vuex.Store({
 		],
 	},
 	mutations:{
-		
+		open_jssdk(state,provider){
+			Vue.prototype.$u.post('app/index.php',{
+				do:'weixin_jssdk',
+				url:window.location.href,
+			}).then(res=>{
+				state.jssdk.config({
+					debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。  
+					appId: res.jssdk.appId, // 必填，公众号的唯一标识  
+					timestamp: res.jssdk.timestamp, // 必填，生成签名的时间戳  
+					nonceStr: res.jssdk.nonceStr, // 必填，生成签名的随机串  
+					signature: res.jssdk.signature, // 必填，签名，见附录1  
+					jsApiList: ["scanQRCode"]
+				})
+			})
+		}
 	},
 	actions:{
 		

@@ -1,10 +1,21 @@
 import util from '@/common/we7_js/util.js'
-import siteInfo from '@/common/we7_js/siteinfo.js'
+import siteInfos from '@/common/we7_js/siteinfo.js'
+
+const siteInfo = siteInfos
+// #ifdef H5
+	if(uni.getStorageSync("weiqing_siteroot")){
+		siteInfo.siteroot = uni.getStorageSync("weiqing_siteroot")
+	}
+	if(uni.getStorageSync("weiqing_uniacid")){
+		siteInfo.uniacid = uni.getStorageSync("weiqing_uniacid")
+	}
+// #endif
+
 // 这里的vm，就是我们在vue文件里面的this，所以我们能在这里获取vuex的变量，比如存放在里面的token
 // 同时，我们也可以在此使用getApp().globalData，如果你把token放在getApp().globalData的话，也是可以使用的
 const install = (Vue, vm) => {
 	Vue.prototype.$u.http.setConfig({
-		// baseUrl: siteInfo.siteroot,//开发服务器
+		baseUrl: siteInfo.siteroot,//开发服务器
 		// 如果将此值设置为true，拦截回调中将会返回服务端返回的所有数据response，而不是response.data
 		// 设置为true后，就需要在this.$u.http.interceptor.response进行多一次的判断，请打印查看具体值
 		// originalData: true, 

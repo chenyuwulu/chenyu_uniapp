@@ -2,6 +2,7 @@
 	export default {
 		onLaunch() {//当uni-app启动，第一次显示
 			console.log('当uni-app启动，第一次显示')
+			this.$store.commit("open_jssdk")
 		},
 		onShow() {//当uni-app启动，或从后台进入前台显示
 			console.log('当uni-app启动，或从后台进入前台显示')
