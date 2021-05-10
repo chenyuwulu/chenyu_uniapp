@@ -8,9 +8,12 @@
 				<text class="title">{{list.w.current_module.description}}</text>
 			</view>
 		</block>
+		<!-- #ifdef H5 -->
 		<u-button @click="scan">扫码</u-button>
 		<u-button @click="getlocation">获取坐标jssdk版</u-button>
 		<u-button @click="unigetlocation">获取坐标uniapi版</u-button>
+		<!-- #endif -->
+		
 		<u-tabbar :icon-size="60" :height="120" :border-top="true"  activeColor="#418BC9" :list="vuex_tabbar" />
 	</view>
 </template>

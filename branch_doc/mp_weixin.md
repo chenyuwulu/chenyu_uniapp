@@ -18,32 +18,49 @@ const siteInfo = {
 ```
 3. 根据`HBuilderX`工具所提供的运行功能，运行对应的微信小程序开发工具查看。
 
-## uniapp打包的小程序如何上架微擎商城流程
-![](https://cdn.w7.cc/images/2019/12/12/p6iQbgFUS4cCb99AEJYwJjemwjFxRcdX46sQsnjY.png "说明图")
-<br>
-首先按照uniapp的方式打包出来会发现，siteinfo.js不存在，但是我们在开发阶段是确确实实把siteinfo.js给引入到项目内的，那去了哪了？整个项目又是正常和微擎后台进行通信的，所以配置信息一定是存在的，那就是被整合到里面去了。
-<br>
-我们通过vscode或其他编辑器，进行全局搜索，搜索我们配置的siteinfo内的信息，比如域名
-<br>
-![](https://cdn.w7.cc/images/2019/12/12/Qx4x7Zki4ip7yohrQBvo6Kv4x8n3LEB3q8aUsaFK.png)
-<br>
-于是发现了这个
-<br>
-![](https://cdn.w7.cc/images/2019/12/12/3CoBZRYowBgbPRsCrbkr6ns70A8fbM41ZfMfPL9o.png)
-<br>
-你会发现，我们的siteinfo.js的信息都被整合到了一个总的js文件内了，原本，是为了减少js文件的引用，从而提高性能。
+## 基本概念
+uniapp下开发微信小程序是要优于在原生的微信小程序下进行开发的，除了uniapp本身的跨端兼容之外，最主要是在保留了大部分小程序结构的好用的地方下，还引入了vue下好用的各类概念和语法糖，比如uniapp就不需要手动setData，框架本身会帮你处理。
 
-但是微擎的规则是需要有siteinfo，才能根据不同用户的配置生成不同的siteinfo，来给不同用户使用。
-那我们只要把这个整合进里面的siteinfo相关的信息，重新独立放在外面的js里，再重新引入即可
-<br>
-![](https://cdn.w7.cc/images/2019/12/12/QcX76wuypB53vXdpYSlJCZVTC4mRxHIxjM3qRoBC.png)
-<br>
-然后把原先的siteinfo数据删除，重新引入
-<br>
-![](https://cdn.w7.cc/images/2019/12/12/0HcoUeBWgQnwtR7OMr2wPtv9CrprMhu3FLgLdiH8.png)
-<br>
-那么这样就结束了吗？还不够，微擎这边还有道检查，是要检查你的app.js内是否有引入siteinfo。所以要在app.js内继续引入
-<br>
-![](https://cdn.w7.cc/images/2019/12/12/AU11dTG2jch1A4DOYreDN5bQZgANNB1ii5xCK0c5.png)
-<br>
-当然了，这个只是为了应付微擎的规则检查，我们实际的引入还是在那个整个的vendor.js里。这里引入的siteInfo没实际用处。
+**<font color=#840228 size=4>
+本示例的微擎服务器是正常的线上服务器，能用https正常访问的线上服务器，如果是采用本地模拟环境的话，请自行替换后面说的服务器概念。
+</font>**
+
+## 如何开发调试
+### 前期准备
+**<font color=#2585a6 size=3>uniapp端的操作</font>**
+
+![](static/mp_weixin/1.png)
+
+并且将siteinfo.js关于微信小程序的部分改成自己微擎后端的uniacid和域名，并且在小程序里version的概念是有的，所以version的版本号要和微擎后端的对应。
+
+![](static/mp_weixin/2.png)
+
+**<font color=#2585a6 size=3>微擎端的操作</font>**
+
+在wxapp.php文件内编写方法即可，不需要做其他的操作，dopage后面的英文就是方法名
+
+![](static/mp_weixin/3.png)
+
+### 开发过程
+
+整体开发流程中，既可以使用微信小程序逻辑为主的结构，也可以用vue为主的结构，或者两者混用都行，但要注意uniapp只是微信小程序的二次创作的框架，基础要是依照微信小程序来的，所以微信小程序做不到的东西，uniapp自然也做不到。
+
+![](static/mp_weixin/4.png)
+
+### 关于如何发布微擎商城的模块问题
+
+由于uniapp打包编译导出的微信小程序文件结构里是不包含siteinfo.js的，但因为微擎为了严格规范，必须让siteinfo独立成一个文件来进行控制，所以需要我们后期处理一下。或许有人好奇，能不能用webpack的忽略静态文件方式去实现，让uniapp打包不要把siteinfo文件混入到vendor.js文件里去，并且dcloud的论坛和很多人都说可以做到。
+
+但我实验过后，发现是做不到的，忽略确实可以忽略，但没法忽略根目录下的单个js文件，能忽略static这种目录级别的，然后微擎有强行要求siteinfo是在根目录，所以就是做不到。只能自己后期添加上去。
+
+首先大家打包导出后，直接去翻查vendor.js，然后搜索自己的微擎域名，正常情况下就一个匹配记录，如下
+
+![](static/mp_weixin/5.png)
+
+此时会发现红框内的就是我们原先独立在外的siteinfo的数据，那把这部分给删掉，改成我们自己从外界引入siteinfo.js,当然，记得要手动在外部创建好对应的siteinfo.js
+
+![](static/mp_weixin/6.png)
+
+接下来还需要在app.js里面手动在引入一遍siteinfo，这一步并不是真的引入，是微擎的检查机制回来查询app.js里有没有引入，如果没有引入，微擎会认为你的模块不合规范从而无法发布到市场。但其实我们的实际siteinfo引入是在vendor.js里的，这里的引入只是用来通过审查用的而已。
+
+![](static/mp_weixin/7.png)

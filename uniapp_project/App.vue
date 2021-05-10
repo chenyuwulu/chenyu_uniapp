@@ -2,7 +2,9 @@
 	export default {
 		onLaunch() {//当uni-app启动，第一次显示
 			console.log('当uni-app启动，第一次显示')
+			// #ifdef H5
 			this.$store.commit("open_jssdk")
+			// #endif
 		},
 		onShow() {//当uni-app启动，或从后台进入前台显示
 			console.log('当uni-app启动，或从后台进入前台显示')

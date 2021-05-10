@@ -1,10 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// #ifdef H5
 import wx_jssdk from "@/common/wx_jssdk.js"
+// #endif
+
 Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
+		// #ifdef H5
 		jssdk:wx_jssdk,//将jssdk放入state中
+		// #endif
 		vuex_tabbar: [//uview的tabbar
 			{	text: '首页',
 				iconPath: "/static/tabbar/home.png",
@@ -19,6 +24,7 @@ const store = new Vuex.Store({
 		],
 	},
 	mutations:{
+		// #ifdef H5
 		open_jssdk(state,provider){
 			Vue.prototype.$u.post('app/index.php',{
 				do:'weixin_jssdk',
@@ -33,7 +39,9 @@ const store = new Vuex.Store({
 					jsApiList: ["scanQRCode"]
 				})
 			})
-		}
+		},
+		// #endif
+		
 	},
 	actions:{
 		
