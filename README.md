@@ -8,10 +8,14 @@
 * 微擎是一个php框架，诞生于13年，这里要联系到当时的时代背景。当时是不流行前后端分离开发的，当时最接近前后端分离开发的也就是api式的服务器和Android或ios的应用方式。但微擎本身是主力服务于web的，所以微擎自身的web大部分是php的模板语法结构，这就导致原本微擎下的php模板语法的封装库是不可能在uniapp下使用了，所以要做好在uniapp里大部分微擎现成方法库无法使用的觉悟
 
 # uniapp编译各端的开发文档
-[微信公众号](/branch_doc/h5_weixin.md)<br>
-[微信小程序](/branch_doc/mp_weixin.md)<br>
-[头条小程序](/branch_doc/mp_toutiao.md)<br>
-[支付宝小程序](/branch_doc/mp_alipay.md)<br>
+[微信公众号](/branch_doc/h5_weixin.md)
+
+[微信小程序](/branch_doc/mp_weixin.md)
+
+[头条小程序](/branch_doc/mp_toutiao.md)
+
+[支付宝小程序](/branch_doc/mp_alipay.md)
+
 [Android](/branch_doc/app_android.md)
 
 # 交流群
