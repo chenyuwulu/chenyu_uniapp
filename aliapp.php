@@ -8,7 +8,7 @@
 defined('IN_IA') or exit('Access Denied');
 
 class Chenyu_uniappModuleAliapp extends WeModuleAliapp {
-	public function doPageTest(){
+	public function doPageIndex(){
         global $_GPC, $_W;
         $errno = 0;
         $message = '此处是微擎小程序后端返回消息';

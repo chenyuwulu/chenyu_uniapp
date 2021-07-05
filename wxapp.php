@@ -63,7 +63,7 @@ class Chenyu_uniappModuleWxapp extends WeModuleWxapp {
         return $this->result($errno, $message, $data);
     }
 
-	public function doPageTest(){
+	public function doPageIndex(){
         global $_GPC, $_W;
         $errno = 0;
         $message = '此处是微擎小程序后端返回消息';

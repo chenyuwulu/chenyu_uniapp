@@ -2,8 +2,12 @@
 	<view class="chenyu_page page_box">
 		
 		<!-- #ifdef H5 -->
+			<u-gap height="100"></u-gap>
 			<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'/static/logo.png')" />
+			<u-gap height="20"></u-gap>
 			<view>{{userinfo.nickname}}</view>
+			<u-gap height="20"></u-gap>
+			<view style="color: #888888;">因为后端是微擎，所以暂时不打算在微擎下制作h5的点击授权逻辑。</view>
 		<!-- #endif -->
 		
 		<!-- #ifdef MP-WEIXIN -->
@@ -30,7 +34,7 @@
 		
 		<!-- #ifdef MP-ALIPAY -->
 			<view>
-				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'../../static/logo.png')" />
+				<image style="width: 200rpx;height: 200rpx;" :src="(userinfo.avatar?userinfo.avatar:'/static/logo.png')" />
 				<view style="text-align: center;">{{userinfo.nickName}}</view>
 			<!-- 	<button type="primary" onGetAuthorize="onGetAuthorize" onError="onAuthError" open-type="getAuthorize" scope='userInfo'>
 				    会员基础信息授权
@@ -49,6 +53,21 @@
 			</view>
 		<!-- #endif -->
 
+		<u-gap height="50"></u-gap>
+		<view class="list_box">
+			<block v-for="(item,index) in setting_list" :key="index">
+				<view class="item" @tap="navigateTo(item.url)">
+					<view class="left content-text">
+						<u-icon :name="item.icon" size="40" color="#7A7E83"></u-icon>
+						<view style="margin-left: 20rpx;font-weight: bold;">{{item.name}}</view>
+					</view>
+					<view class="right">
+						<u-icon name="arrow-right" size="30" color="#7A7E83"></u-icon>
+					</view>
+				</view>
+				<view v-if="setting_list.length!=index+1" style="margin-left: 20rpx;margin-right: 20rpx;width:auto;height: 2rpx;background-color: #EEEEEE;"></view>
+			</block>
+		</view>
 		<u-tabbar :icon-size="60" :height="120" :border-top="true"  activeColor="#418BC9" :list="vuex_tabbar" />
 	</view>
 </template>
@@ -58,15 +77,25 @@
 	export default {
 		data() {
 			return {
-				// #ifdef MP-WEIXIN || MP-QQ || MP-TOUTIAO
+				// #ifdef MP-WEIXIN || MP-QQ
 					login_code:"",
 					login_timestamp:0,
 				// #endif
 				userinfo:{},
 				// #ifdef APP-PLUS
 				userinfo_qq:{},
-				userinfo_wx:{}
+				userinfo_wx:{},
 				// #endif
+				setting_list: [
+					{	name:"更新日志",
+						icon:"calendar",
+						url:"/pages/subPackages/setting/update_log"
+					},
+					{	name:"关于",
+						icon:"more-circle",
+						url:"/pages/subPackages/setting/about"
+					},
+				],
 			}
 		},
 		computed:{//tabbar使用
@@ -75,20 +104,19 @@
 			}
 		},
 		onLoad(options) {
-			// #ifdef MP-WEIXIN || MP-QQ || MP-TOUTIAO
-				this.mp_get_logincode()
-			// #endif
-		},
-		onShow() {
 			// #ifdef H5
 				this.$u.post('app/index.php',{
 					do:'index',
 				}).then(res=>{
 					console.log('这是返回的',res)
-					this.userinfo = res.data.w.fans
+					this.userinfo = res.w.fans
 				})
 			// #endif
-			
+			// #ifdef MP-WEIXIN || MP-QQ
+				this.mp_get_logincode()
+			// #endif
+		},
+		onShow() {
 			// #ifdef MP-WEIXIN
 				this.userinfo = uni.getStorageSync('userInfo').wxInfo
 			// #endif
@@ -143,7 +171,7 @@
 										duration: 2000
 									})
 									console.log('这是返回的',res)
-									this.userinfo = res.data.data
+									this.userinfo = res.data
 								})
 				      }
 				    })
@@ -295,7 +323,7 @@
 				},
 			// #endif
 			
-			// #ifdef MP-WEIXIN || MP-QQ || MP-TOUTIAO
+			// #ifdef MP-WEIXIN || MP-QQ
 				mp_get_logincode(e){//刷新data里的code时效
 					uni.login({
 						success: (res) => {
@@ -331,6 +359,30 @@
 		.title {
 			font-size: 36rpx;
 			color: #8f8f94;
+		}
+	}
+	.list_box{
+		width: 100%;
+		background-color: #FFFFFF;
+		border-radius: 20rpx;
+		overflow: hidden;
+		box-shadow:1rpx 1rpx 18rpx 1rpx rgba(#999999,0.47);
+		.item{
+			background-color: #FFFFFF;
+			height: 100rpx;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding-left: 20rpx;
+			padding-right: 20rpx;
+			&:active{
+				background-color: #f2f2f2;
+			}
+			.left{
+				display: flex;
+				align-items: center;
+			}
+			.right{}
 		}
 	}
 </style>

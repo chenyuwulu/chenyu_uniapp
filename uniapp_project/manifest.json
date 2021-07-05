@@ -88,6 +88,8 @@
         "uniStatistics" : {
             "enable" : true
         },
+				"component2": true,
+				"enableAppxNg": true,
         "appid" : "2019051965185240"
     },
     "mp-baidu" : {

@@ -8,7 +8,7 @@
 defined('IN_IA') or exit('Access Denied');
 
 class Chenyu_uniappModulePhoneapp extends WeModulePhoneapp {
-	public function doPageTest(){
+	public function doPageIndex(){
 		global $_GPC, $_W;
 		$errno = 0;
 		$message = '返回消息';

@@ -36,7 +36,17 @@ const store = new Vuex.Store({
 					timestamp: res.jssdk.timestamp, // 必填，生成签名的时间戳  
 					nonceStr: res.jssdk.nonceStr, // 必填，生成签名的随机串  
 					signature: res.jssdk.signature, // 必填，签名，见附录1  
-					jsApiList: ["scanQRCode"]
+					jsApiList: [
+						"updateAppMessageShareData",
+						"updateTimelineShareData",
+						"chooseImage",
+						"previewImage",
+						"getNetworkType",
+						"scanQRCode",
+						"openLocation",
+						"getLocation",
+						"closeWindow",
+						"chooseWXPay"]
 				})
 			})
 		},

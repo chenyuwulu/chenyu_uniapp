@@ -24,17 +24,21 @@
 		}
 	},
 	"subPackages": [
-		//个人测试分包
-		// {	"root": "pages/sub_package/test",
-		// 	"pages": [
-		// 		{	"path":"canvas/index",
-		// 			"style":{
-		// 				"navigationBarTitleText": "画布测试",
-		// 				"usingComponents":{}
-		// 			}
-		// 		}
-		// 	]
-		// }
+		{	"root": "pages/subPackages/setting",
+			"pages": [
+				{	"path":"update_log",
+					"style":{
+						"navigationBarTitleText": "更新日志",
+						"usingComponents":{}
+					}
+				},{	"path":"about",
+					"style":{
+						"navigationBarTitleText": "关于",
+						"usingComponents":{}
+					}
+				}
+			]
+		}
 	],
 	"tabBar": {//虽然使用了uview的tabbar，但也要写个定义
 		"position":"bottom",
@@ -52,9 +56,12 @@
 		]
 	},
 	"globalStyle": {
+		// #ifdef H5
+		"navigationStyle":"custom",
+		// #endif
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "兴趣而已",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#418BC9",
 		"backgroundColor": "#F8F8F8"
 	}
 }
