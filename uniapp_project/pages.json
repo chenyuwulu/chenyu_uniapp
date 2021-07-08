@@ -18,6 +18,7 @@
 	"easycom":{//公共引入，方便直接使用对应组件
 		"autoscan":true,
 		"custom": {
+			"chenyu-(.*)":"@/components/chenyu/$1.vue",
 			"uni-(.*)": "@/components/uni-ui/uni-$1/uni-$1.vue",
 			"tui-(.*)": "@/components/thorui/tui-$1/tui-$1.vue",
 			"^u-(.*)": "@/components/uview-ui/components/u-$1/u-$1.vue"

@@ -88,5 +88,18 @@ CREATE TABLE `ims_chenyu_uniapp_user_app_wx` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `ims_chenyu_uniapp_user_wxapp`;
+CREATE TABLE `ims_chenyu_uniapp_user_wxapp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `nickName` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `openId` varchar(255) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `createtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 sql;
 $row = pdo_run($installSql);
