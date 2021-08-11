@@ -1,5 +1,5 @@
 export const log = [
-	{	title:"v1.0.0",
+	{	title:"v2.0.2",
 		content:[
 			"1.初次加入更新日志",
 			"2.加入mixins混入",

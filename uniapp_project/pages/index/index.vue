@@ -5,7 +5,9 @@
 			<image class="logo" :src="list.w.current_module.logo" />
 			<u-gap height="50"></u-gap>
 		</block>
+		<!-- #ifdef H5 -->
 		<chenyu-jssdkapi></chenyu-jssdkapi>
+		<!-- #endif -->
 		
 		<u-tabbar :icon-size="60" :height="120" :border-top="true"  activeColor="#418BC9" :list="vuex_tabbar" />
 	</view>
